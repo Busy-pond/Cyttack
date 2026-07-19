@@ -1,0 +1,394 @@
+ADDENDUM 3 — SENTINELGRID LANDING / HOME PAGE
+(Reference: withsurface.com homepage structure)
+(Paste this AFTER Addendum 2. This adds a standalone marketing/landing page — separate
+from the actual Mission Control dashboard/demo — that explains what SentinelGrid is,
+the problem it solves, how it solves it, and its impact, before the user ever enters
+the live simulation.)
+
+UPDATE — this version REPLACES Addendum 2's flat, very-pale palette with a richer
+gradient background (Section 13) and replaces plain-text/static problem-and-solution
+art with an animated, pixel-schematic illustration system (Section 14) — the same
+dark bolted-panel, blocky-pixel-numeral, saturated-tag-and-circuit-line style used
+in Surface's own actual product illustrations. Read Sections 13 and 14 before
+building Sections 2, 4, and 5 below — they now depend on it instead of on Addendum
+2's plain palette/type rules.
+
+============================================================
+0. PURPOSE OF THIS PAGE
+============================================================
+0.1 This is the FIRST screen a visitor/judge sees — a real landing page, not the
+    dashboard. It should read like a product homepage (the way withsurface.com
+    introduces "Surface" before you ever touch the app), then hand off into the
+    live attack simulation via a clear CTA.
+0.2 Route: "/" is this landing page. The Mission Control dashboard / live demo lives
+    at "/simulation" (or opens in the same view after clicking the primary CTA).
+0.3 Keep all functional/demo logic from the main brief untouched — this page is
+    purely new, additive marketing surface area.
+
+============================================================
+1. NAV BAR
+============================================================
+1.1 Left: SentinelGrid logo/wordmark.
+1.2 Center/right nav links: PRODUCT · HOW IT WORKS · IMPACT · ABOUT (all can anchor-
+    scroll to sections on this same page rather than separate routes — fine for a
+    hackathon build).
+1.3 Right-most: a ghost/outline "LOG IN" style button (non-functional placeholder is
+    fine) + a solid primary button "LAUNCH LIVE DEMO →" that routes to /simulation.
+
+============================================================
+2. HERO SECTION
+============================================================
+2.1 Small uppercase eyebrow label above the headline, e.g. "AI INCIDENT RESPONSE
+    FOR CRITICAL INFRASTRUCTURE" — mirrors Surface's "LEAD OPERATIONS CENTER" eyebrow.
+2.2 Big, bold, tight-tracked headline (text-5xl–6xl), benefit-framed, not feature-
+    framed — e.g. "Helping Security Teams Stop Attacks Before They Spread" (pattern-
+    match Surface's "Helping Marketers Drive 30% More Demos in 2 Weeks").
+2.3 One-line subhead below headline explaining the mechanism plainly, e.g.
+    "An autonomous multi-agent system that detects, predicts, and neutralizes
+    attacks on power grids, hospitals, and rail networks — in seconds, not days."
+2.4 Two CTAs side by side: primary solid button "LAUNCH LIVE DEMO →" (routes to
+    /simulation and auto-starts the guided attack scenario), secondary outline/
+    text-link button "HOW IT WORKS" (scrolls down to Section 4).
+2.5 Below the CTAs, an INTERACTIVE, AUTO-PLAYING WORKFLOW DEMO — this is a real
+    component, not a static image, and it's the centerpiece of the hero. Full spec
+    in Section 2.6 below.
+
+============================================================
+2.6 INTERACTIVE WORKFLOW PLAYER (hero centerpiece — build this as a real component)
+============================================================
+This directly mirrors the tab-strip demo player on withsurface.com's hero (the
+CAPTURE / QUALIFY / ROUTE / RECOVER / NURTURE tabs that auto-advance and swap in a
+full-bleed colored video panel). Build the SentinelGrid equivalent with these exact
+mechanics:
+
+a) TABS: a horizontal row of 4 tabs — "DETECT" · "PREDICT" · "RESPOND" · "RECOVER" —
+   each with a small square icon (own accent color per tab, e.g. teal/amber/indigo/
+   green) and an uppercase tracked label. Tabs sit in a light-gray strip above the
+   video panel, same row width as the panel below.
+
+b) ACTIVE STATE: exactly one tab is active at a time. The active tab is visually
+   distinct (slightly darker background on its cell) and has a thin colored
+   progress-fill bar directly beneath its label that fills left-to-right over the
+   duration the panel is showing (~4-5 seconds), matching Surface's underline
+   progress indicator exactly.
+
+c) AUTO-ADVANCE: when a tab's progress bar finishes filling, auto-advance to the
+   next tab in sequence (Detect → Predict → Respond → Recover → loop back to
+   Detect). This must run continuously and automatically on page load — it should
+   already be "playing" before the user touches anything.
+
+d) MANUAL OVERRIDE: clicking any tab immediately jumps to that tab, resets its
+   progress bar to 0%, and resumes auto-advance from there. Hovering/clicking
+   pauses the auto-advance timer only while the user's cursor is over the strip
+   (optional nice-to-have, not required).
+
+e) CONTENT PANEL: below the tab strip, one large full-width panel (rounded corners,
+   soft shadow, matches the "device frame" styling from Addendum 2 Section 3.2).
+   The panel's background color shifts to match the active tab's accent color
+   (soft/muted tint, not neon — e.g. a pale teal wash for Detect, pale amber for
+   Predict, pale indigo for Respond, pale green for Recover). Inside the panel,
+   show a short looping screen-capture/animation or illustrated diagram specific
+   to that pipeline stage:
+     — Detect: a simplified log/telemetry stream with one line highlighting red as
+       an anomaly is flagged.
+     — Predict: a simple confidence-meter or belief-score bar climbing as the
+       Bayesian model updates.
+     — Respond: an agent icon executing a contained action inside a sandboxed box
+       outline.
+     — Recover: a checklist/timeline ticking off items with a final green checkmark.
+   Cross-fade (300ms) between panels when the active tab changes — no hard cuts.
+
+f) TRANSITION BEHAVIOR: switching tabs should cross-fade both the panel content
+   and its background tint together, not just swap content abruptly — mirrors the
+   smooth, calm motion language from Addendum 2 Section 5.
+
+g) WHY THIS MATTERS: this component is the single most important "wow" moment on
+   the landing page — it's the first thing a judge interacts with before they ever
+   click "LAUNCH LIVE DEMO," and it should visually preview the same Detect/
+   Predict/Respond/Recover pipeline that the full simulation demonstrates, so the
+   hero effectively acts as a compressed, always-playing trailer for the real demo.
+
+h) REPLIT NOTE: implement with simple local component state (`activeTab`,
+   `progress`) and a `setInterval`/`requestAnimationFrame` loop for the progress
+   bar — no external video files required if time-constrained; an animated SVG/CSS
+   illustration per tab is a perfectly good substitute for real screen-capture
+   footage and is actually faster to build reliably in Replit.
+
+============================================================
+3. "TRUSTED BY" STRIP
+============================================================
+3.1 Small centered label: "Built for the sectors that can't afford downtime."
+3.2 A horizontal auto-scrolling logo row in grayscale/low-opacity, using stylized
+    placeholder wordmarks for sectors/institutions (not real logos/trademarks) —
+    e.g. "Power Grid Authority," "Metro Rail Operations," "National Health Network,"
+    "Public Exam Board," "Water & Utilities Board" — same visual treatment as
+    Surface's infinite customer-logo carousel.
+
+============================================================
+4. PROBLEM SECTION — NOW ANIMATED (was static, fix per Section 14 system)
+============================================================
+4.1 Small eyebrow label: "THE PROBLEM"
+4.2 Section headline (text-4xl, bold): a real, punchy statement of what goes wrong
+    today — e.g. "Security teams see the alert. By the time they act, it's already
+    too late."
+4.3 Three problem cards in a row. Each card's top area is NOT a static illustration
+    — it is a small looping animated pixel-schematic diagram (build per Section 14),
+    auto-playing on load and looping every ~3-4 seconds, exactly like Surface's own
+    problem-section clips:
+    — Card 1 "Alerts Pile Up Faster Than Analysts Can Read Them" / "Thousands of log
+      lines a minute. One missed signal is a breach." — ANIMATION: a dotted timeline
+      (MON · TUE · WED · THU) with a bouncing arc that starts tall and orange, and
+      gets shorter, more transparent, and dashed with each bounce (mirrors the
+      "leads go cold" decay-arc animation) — ending the loop with a small pixel
+      octagon "X" badge in muted red/orange to mark the missed alert.
+    — Card 2 "Manual Response Takes Hours, Attacks Take Seconds" / "Thousands of
+      alerts a week. Only a handful are real threats." — ANIMATION: a bolted dark
+      panel with a big blocky pixel numeral counting up (e.g. "500") and label
+      "ALERTS/WK" beneath it, with two lines branching down to a peach/orange pixel
+      tag "92% NOISE" (trash-can icon) and a green pixel tag "8 REAL" (checkmark
+      octagon icon) — mirrors the 50/84%-waste/only-8 diagram exactly.
+    — Card 3 "No One Has the Full Picture" / "SOC, compliance, and ops each see a
+      different slice of the same attack." — ANIMATION: two bolted-corner dark
+      panels labeled "SOC TEAM" and "COMPLIANCE" rendered at reduced opacity/ghosted
+      (like disconnected silos), with a thin gray connector line between them that
+      never completes/connects — visually says "these teams aren't talking."
+4.4 Each animation loops continuously and independently per card (no user
+    interaction required) — same "already playing" principle as the hero player in
+    Section 2.6. Keep each card's animation contained to its own top panel; title
+    and one-line description stay as plain text beneath, unchanged from before.
+
+============================================================
+5. SOLUTION SECTION — NUMBERED STEPS, NOW ANIMATED (was static)
+============================================================
+5.1 Eyebrow label: "THE SOLUTION"
+5.2 Section headline: outcome-framed and numeric, mirroring Surface's "3 steps that
+    drive 30% more demos in 2 weeks" — e.g. "4 stages that cut incident response
+    from hours to seconds."
+5.3 Reuse the numbered-step rail (Detect · Predict · Respond · Recover), each step
+    getting its own large numeral, short bold title, one-paragraph description, and
+    — instead of a static image — a looping animated pixel-schematic flow diagram
+    (build per Section 14) inside a rounded device frame, alternating sides per
+    step (image left/right, numbered text on the other side):
+    1 — Detect: a yellow pixel tag "TELEMETRY" flows along a gray right-angle
+        connector line into a bolted dark "SentinelGrid" core panel, which routes
+        out to a green checkmark-octagon badge and a peach tag "ANOMALY FLAGGED" —
+        line-draw animates in on loop (mirrors the Smart-Form-routing diagram).
+    2 — Predict: a purple pixel tag "RISK SCORE" sits above a white stat card with
+        a big blocky pixel numeral ticking upward (e.g. "94") and a small up-arrow
+        "% confidence" beneath it, connected down to a bolted dark panel with three
+        stacked sub-rows — "PRIORS," "ENTROPY," "POSTERIOR" — lighting up in
+        sequence as the number ticks (mirrors the Bookings/Leads-Receives diagram).
+    3 — Respond: a yellow "INCIDENT" tag and an orange "AI" tag feed into a bolted
+        dark core panel containing a small rotating ring of pixel dots (a loading-
+        spinner motif signaling active agent processing), branching out to two
+        light-green pixel tags — "COUNTERMEASURE DEPLOYED" and "SANDBOX CONTAINED"
+        — mirrors the Leads → AI → Demo Bookings/Optimizations diagram exactly.
+    4 — Recover: a bolted dark panel labeled "AUDIT TRAIL" with the same stacked
+        sub-row treatment as step 2 ("ACTIONS LOGGED," "ROOT CAUSE," "REPORT")
+        resolving into a single green checkmark-octagon badge — "INCIDENT CLOSED."
+5.4 Each diagram auto-plays on loop the moment it scrolls into view (fade-up per
+    Addendum 2 Section 5, then loop indefinitely) — none of these are static once
+    built; that was the gap in the previous draft.
+5.5 Suggested copy per step (unchanged, pairs with the animations above):
+    1 — Detect: "SentinelGrid's agents continuously monitor infrastructure telemetry
+        and flag anomalies the moment they deviate from baseline behavior."
+    2 — Predict: "A Bayesian belief model scores the likelihood and blast radius of
+        an attack before it fully unfolds, prioritizing what actually matters."
+    3 — Respond: "Autonomous agents execute contained, auditable countermeasures in
+        isolated sandboxes — no waiting on a human to click 'approve' during the
+        critical first seconds."
+    4 — Recover: "Full audit trail and root-cause summary generated automatically,
+        so compliance and leadership see exactly what happened and why."
+
+============================================================
+6. IMPACT / STATS SECTION
+============================================================
+6.1 Eyebrow label: "THE IMPACT" (mirrors Surface's stat block after their solution
+    section).
+6.2 Icon + huge-number + short-label grid, 4 columns on desktop, same as Addendum 2
+    Section 3.4 styling. Suggested stats (placeholder/demo figures, label them as
+    simulated/estimated if judges may probe):
+    — "90%+ " → "Faster mean-time-to-detect vs. manual triage"
+    — "< 5 sec" → "From anomaly flagged to countermeasure deployed"
+    — "5 categories" → "Of compliance/security violations auto-detected"
+    — "100%" → "Auditable — every agent action logged and traceable"
+6.3 Keep numbers on plain background, no card borders — whitespace separates them,
+    per Addendum 2's rule.
+
+============================================================
+7. "BUILT FOR ENTERPRISE / CRITICAL INFRASTRUCTURE" SECTION
+============================================================
+7.1 Eyebrow label: "ENTERPRISE-READY" (reuse almost verbatim from Surface).
+7.2 3-column feature grid with icon/image, bold title, one-line description —
+    mirror Surface's Privacy & Compliance / Workflow & Agent Observability / CRM &
+    MAP Integrations layout exactly, but recontent for SentinelGrid:
+    — "Compliance-First Design" — "Built around AML/regulatory audit requirements,
+      not bolted on afterward."
+    — "Full Agent Observability" — "Every autonomous action is traced end-to-end via
+      Arize Phoenix — no black-box decisions."
+    — "Cloud-Native Integrations" — "Deploys against real GCP resource telemetry,
+      MongoDB Atlas, and existing SIEM/logging pipelines — no rip and replace."
+
+============================================================
+8. "TESTIMONIAL"-STYLE PROOF SECTION (OPTIONAL, CLEARLY LABELED AS ILLUSTRATIVE)
+============================================================
+8.1 Eyebrow/heading: "Loved by security teams" (or, if judges may push back on
+    fabricated quotes reading as real endorsements, relabel as "What a SOC lead
+    would say" / "Illustrative feedback" to keep it honest).
+8.2 2–3 short quote cards, same visual treatment as Surface's testimonial cards
+    (quote, name, title, sector — use clearly fictional personas, e.g. "A. Sharma,
+    Security Analyst, Simulated Power Grid Authority"), e.g.:
+    — "Response time went from hours to seconds during our tabletop exercise."
+    — "The audit trail alone would save our compliance team a full day per incident."
+8.3 Keep this section skippable/removable — it's a polish layer, not core
+    functionality, and should never claim to be a real customer.
+
+============================================================
+9. FINAL CTA / CLOSE
+============================================================
+9.1 Large centered closing statement mirroring Surface's close, e.g. "See SentinelGrid
+    stop a live attack in real time." with a single primary button "LAUNCH LIVE
+    DEMO →" routing into /simulation and auto-starting the guided story sequence.
+9.2 Keep this section short — one headline, one CTA, generous whitespace above/below.
+
+============================================================
+10. FOOTER
+============================================================
+10.1 Left: SentinelGrid wordmark + 1–2 line description of the project, mirroring
+     Surface's footer blurb, e.g. "SentinelGrid is an autonomous multi-agent system
+     for detecting and responding to threats against critical infrastructure."
+10.2 Column links (can be anchor links or placeholders): PRODUCT (Detect / Predict /
+     Respond / Recover), LEARN MORE (How It Works / Impact / About), SOCIALS
+     (GitHub repo link to the real project repo).
+10.3 Bottom line: simple copyright/credit line for the hackathon team.
+
+============================================================
+11. MOTION & LAYOUT NOTES SPECIFIC TO THIS PAGE
+============================================================
+11.1 Apply the same fade-up-on-scroll, gentle-hover-scale, and cross-fade rules
+     from Addendum 2 Section 5 to every section on this landing page.
+11.2 Each major section (Problem, Solution, Impact, Enterprise, Testimonials, Close)
+     should be its own full-width block with generous vertical padding (py-24 to
+     py-32) and a max-width centered container (max-w-6xl/7xl) — matches Surface's
+     rhythm of one idea per full-viewport-height-ish block as you scroll.
+11.3 This landing page should be the entry point in routing/state — clicking
+     "LAUNCH LIVE DEMO" anywhere on the page transitions (cross-fade, not hard
+     reload) into the existing Mission Control / guided-demo experience already
+     specified in the main brief.
+
+============================================================
+13. RICH GRADIENT BACKGROUND (replaces the flat, very-pale palette)
+============================================================
+13.1 PROBLEM WITH THE PREVIOUS VERSION: Addendum 2's off-white/pale-gray flat
+     background (#FAFAF9) reads as washed out on a full landing page — there's not
+     enough depth behind the content. Replace it with a real gradient.
+13.2 HERO + ALTERNATING FULL-BLEED SECTIONS: use a subtle multi-stop diagonal
+     gradient (135deg) instead of a flat fill:
+     `linear-gradient(135deg, #1B1E3C 0%, #2B2E4A 35%, #1F4B44 70%, #14532D 100%)`
+     — a deep indigo-to-forest-teal sweep. Use this behind the HERO section and the
+     RESPOND/RECOVER-side alternating solution rows, and behind the final CTA
+     section, so the page has a clear light/dark/light rhythm instead of one flat
+     tone top to bottom.
+13.3 LIGHT SECTIONS (Problem, Impact, Enterprise, Testimonials): keep these on a
+     warm off-white (#FAFAF9) but add a very soft radial gradient wash behind the
+     section headline — a faint bloom of the section's accent color at ~6-8%
+     opacity centered behind the eyebrow label — so even the "light" sections don't
+     read as flat single-color fields.
+13.4 CARDS ON DARK GRADIENT SECTIONS: switch card fill to the bolted dark panel
+     style from Section 14.2 instead of white cards, so cards don't fight the
+     gradient behind them.
+13.5 ACCENT COLOR RANGE (richer than Addendum 2's muted palette): keep functional
+     status colors as before, but for decorative gradient/tag use the fuller
+     saturated set pulled from Section 14.3 (orange, yellow, green, purple/lavender,
+     teal) rather than restricting to one muted indigo — this page can be more
+     colorful than the actual security-dashboard app, since it's marketing surface,
+     not an operational tool a CISO stares at all day.
+13.6 MOTION: gradients stay static (no animated hue-shifting) — richness comes from
+     color depth and the section-to-section light/dark rhythm, not from moving
+     gradients, to stay consistent with the calm motion language elsewhere.
+
+============================================================
+14. PIXEL-SCHEMATIC ANIMATED ILLUSTRATION SYSTEM (replaces plain text/icons)
+============================================================
+This is the actual illustration language Surface uses in its own product clips —
+dark bolted hardware panels, blocky pixel numerals, saturated flat-color tags, and
+circuit-style routing lines — rather than plain icons or prose. Use this system for
+every diagram referenced in Sections 2.6 (hero player), 4 (problem cards), and 5
+(solution steps).
+
+14.1 GRID BACKDROP: every diagram sits on a faint dot/line grid (1px lines, ~24px
+     spacing, ~5% opacity) over a dark charcoal fill (#1E1E1E–#242424) for dark-
+     mode diagrams, or a barely-visible warm-gray grid over off-white for light-
+     mode diagrams (matches the Section 4/5 grid backdrops in the reference
+     screenshots).
+14.2 BOLTED PANELS: core/central elements (the "SentinelGrid," "belief state," or
+     "audit trail" boxes) render as a dark rounded-rect panel with a thin lighter
+     border and a small circular "bolt/screw" icon (half-shaded circle, like a
+     flathead screw) in each of the top-left and bottom-right corners — this is the
+     signature detail that reads as "technical hardware panel" rather than a
+     generic card.
+14.3 FLAT COLOR TAGS: small solid-fill rectangular tags carry every label
+     ("TELEMETRY," "ANOMALY FLAGGED," "94," etc.) — sharp corners (not rounded),
+     black or near-black pixel-style text, one flat saturated color per tag drawn
+     from: amber-orange (#F2994A), yellow (#F2D94E), light green (#B9E88A), lavender
+     (#A9A4FF), sky blue (#7FC8F8). No gradients or shadows on the tags themselves —
+     flat fill only.
+14.4 PIXEL NUMERALS: any big stat/count ("500," "94," "96") renders in a blocky,
+     slightly-pixelated numeral style (a monospace/pixel-adjacent font such as
+     "Press Start 2P" for numerals only, or a custom stepped-edge SVG numeral if a
+     pixel font hurts legibility at large sizes) in the section's accent color.
+14.5 STATUS ICONS: small octagon badges — green octagon + white checkmark for
+     success/contained states, muted red-orange octagon + white "X" for
+     missed/failed states — reused consistently across every diagram.
+14.6 CONNECTOR LINES: thin gray (#8A8A85 on dark, #B9B9B4 on light) right-angle
+     "circuit trace" lines connect elements — never diagonal, always routed in
+     clean horizontal/vertical segments with rounded corner joins, matching the
+     routing-diagram screenshots.
+14.7 SIGNATURE MOTION PATTERNS (reuse across diagrams rather than inventing new
+     motion per instance):
+     — DECAY BOUNCE: an arc bounces along a horizontal dotted line, each
+       successive bounce shorter, more transparent, and eventually dashed —
+       communicates urgency/value draining away over time. Use for Problem Card 1.
+     — COUNT-UP + BRANCH: a big pixel numeral ticks upward, then two gray lines
+       branch downward to flat-color result tags — communicates one input
+       resolving into a good and a bad outcome. Use for Problem Card 2 and Solution
+       Step 2.
+     — GHOSTED SILOS: two bolted panels at reduced opacity (~50%) with a connector
+       line between them that never resolves/connects — communicates
+       disconnection. Use for Problem Card 3.
+     — LINE-DRAW ROUTING: connector lines animate in stroke-by-stroke (like an SVG
+       `stroke-dashoffset` draw-on) from input tag to core panel to output tag(s) —
+       communicates a live pipeline. Use for Solution Steps 1 and 4.
+     — SPINNER CORE: a small ring of 8 pixel-dots rotates continuously inside a
+       bolted panel — communicates active AI/agent processing. Use for Solution
+       Step 3 and optionally as a loading state elsewhere on the page.
+14.8 LOOPING RULE: every diagram loops continuously and automatically — none of
+     these are one-shot animations the user has to trigger, and none are static
+     end-states. This is the core fix requested: nothing in Problem or Solution
+     should sit still.
+14.9 REPLIT BUILD NOTE: these are all achievable as plain SVG + CSS (stroke-
+     dashoffset for line-draw, CSS keyframe rotation for the spinner, opacity/
+     translateY keyframes for the bounce-decay, a simple count-up via
+     requestAnimationFrame for numerals) — no video assets needed. Build 4-5 small
+     reusable React components (BoltedPanel, FlatTag, PixelNumeral, StatusOctagon,
+     ConnectorLine) and compose the specific diagrams per section from those, rather
+     than hand-building each diagram as a one-off.
+
+============================================================
+15. REPLIT EXECUTION NOTES
+============================================================
+15.1 Build this as a new top-level route/page component. Palette/type now comes
+     from Section 13 (gradient) and Section 14 (pixel-schematic system) — treat
+     those as overriding Addendum 2's flat pale palette for this landing page only;
+     the actual Mission Control dashboard can keep Addendum 2's calmer treatment.
+15.2 Build the 5 reusable illustration components from Section 14.9 first
+     (BoltedPanel, FlatTag, PixelNumeral, StatusOctagon, ConnectorLine), then
+     compose the hero player, problem cards, and solution steps from them — don't
+     hand-build each diagram separately.
+15.3 All sector/company names and testimonial personas used here are placeholders
+     for demo purposes only and must be clearly fictional — do not imply real
+     partnerships, customers, or endorsements.
+15.4 QA pass: confirm nothing in the Problem or Solution sections sits static —
+     every diagram should already be looping/animating on load, same as the hero
+     player — and confirm the gradient gives a visible light/dark rhythm scrolling
+     top to bottom, not a single flat tone.
