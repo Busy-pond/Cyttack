@@ -28,31 +28,31 @@ function EntityNode({ data }: { data: any }) {
   
   return (
     <div className={`
-      px-4 py-2 shadow-md rounded-md border-2 bg-card min-w-[150px]
-      ${isAnomalous ? 'border-critical shadow-[0_0_15px_rgba(255,77,77,0.3)] animate-pulse' : ''}
-      ${isContained ? 'border-contained shadow-[0_0_10px_rgba(52,211,153,0.2)]' : ''}
+      px-4 py-3 rounded-xl border bg-card min-w-[150px] shadow-sm transition-all
+      ${isAnomalous ? 'border-critical/40 bg-critical/5 shadow-md' : ''}
+      ${isContained ? 'border-contained/40 bg-contained/5' : ''}
       ${!isAnomalous && !isContained ? 'border-border' : ''}
     `}>
-      <Handle type="target" position={Position.Top} className="w-2 h-2 !bg-primary" />
-      <div className="flex items-center gap-2 mb-1">
-        <div className={`p-1 rounded ${
-          isAnomalous ? 'bg-critical/20 text-critical' : 
-          isContained ? 'bg-contained/20 text-contained' : 
-          'bg-primary/20 text-primary'
+      <Handle type="target" position={Position.Top} className="w-2 h-2 !bg-primary/60" />
+      <div className="flex items-center gap-2 mb-2">
+        <div className={`p-1.5 rounded-lg ${
+          isAnomalous ? 'bg-critical/10 text-critical' : 
+          isContained ? 'bg-contained/10 text-contained' : 
+          'bg-secondary text-muted-foreground'
         }`}>
           {data.icon}
         </div>
-        <div className="font-mono text-xs font-bold truncate max-w-[100px]">{data.label}</div>
+        <div className="text-xs font-semibold text-foreground truncate max-w-[100px]">{data.label}</div>
       </div>
-      <div className="flex justify-between items-center mt-2">
-        <div className="text-[10px] text-muted-foreground uppercase">{data.type}</div>
+      <div className="flex justify-between items-center">
+        <div className="text-[9px] text-muted-foreground uppercase tracking-wider">{data.type}</div>
         <div className={`w-2 h-2 rounded-full ${
           isAnomalous ? 'bg-critical' : 
           isContained ? 'bg-contained' : 
-          'bg-primary'
+          'bg-low'
         }`} />
       </div>
-      <Handle type="source" position={Position.Bottom} className="w-2 h-2 !bg-primary" />
+      <Handle type="source" position={Position.Bottom} className="w-2 h-2 !bg-primary/60" />
     </div>
   );
 }
@@ -222,19 +222,17 @@ export default function AttackMap() {
   return (
     <AppLayout>
       <div className="flex flex-col h-[calc(100vh-8rem)]">
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4 shrink-0">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-start mb-6 gap-4 shrink-0">
           <div>
-            <h1 className="text-3xl font-heading font-bold tracking-tight flex items-center gap-3">
-              <Network className="w-8 h-8 text-primary" />
-              Attack Map (Digital Twin)
-            </h1>
-            <p className="text-muted-foreground mt-1 font-mono text-sm uppercase tracking-wider">Real-time network topology and lateral movement tracking</p>
+            <p className="text-[10px] font-medium uppercase tracking-widest text-muted-foreground mb-2">AI PREDICTION</p>
+            <h1 className="text-3xl font-heading font-bold tracking-tight text-foreground">Attack Map</h1>
+            <p className="text-muted-foreground text-sm mt-1">Real-time network topology and lateral movement tracking.</p>
           </div>
 
-          <div className="flex gap-3">
+          <div className="flex gap-3 shrink-0">
             <Button 
-              variant={isSimulating ? "outline" : "destructive"} 
-              className={!isSimulating ? "bg-critical text-critical-foreground hover:bg-critical/90 shadow-[0_0_15px_rgba(255,77,77,0.3)]" : ""}
+              variant={isSimulating ? "outline" : "default"}
+              className={isSimulating ? "" : "bg-critical/90 text-white hover:bg-critical border-0"}
               onClick={() => setIsSimulating(!isSimulating)}
             >
               {isSimulating ? "Stop Simulation" : "Simulate Attack Path"}
@@ -242,7 +240,7 @@ export default function AttackMap() {
             
             <Button 
               variant="outline" 
-              className="border-contained text-contained hover:bg-contained/10"
+              className="border-contained/40 text-contained hover:bg-contained/8"
               onClick={handleMitigate}
             >
               <ShieldCheck className="w-4 h-4 mr-2" />
@@ -251,24 +249,23 @@ export default function AttackMap() {
           </div>
         </div>
 
-        <div className="flex-1 bg-card border border-border rounded-xl shadow-lg overflow-hidden relative">
-          
+        <div className="flex-1 bg-card border border-border rounded-xl shadow-sm overflow-hidden relative">
           <div className="absolute top-4 left-4 z-10 flex gap-2">
-            <Badge variant="outline" className="bg-background/80 backdrop-blur font-mono text-[10px]">
-              <span className="w-2 h-2 rounded-full bg-primary mr-1 inline-block" /> Normal
+            <Badge variant="outline" className="bg-card/90 backdrop-blur text-[10px]">
+              <span className="w-1.5 h-1.5 rounded-full bg-low mr-1.5 inline-block" /> Normal
             </Badge>
-            <Badge variant="outline" className="bg-background/80 backdrop-blur font-mono text-[10px]">
-              <span className="w-2 h-2 rounded-full bg-critical mr-1 inline-block animate-pulse" /> Compromised
+            <Badge variant="outline" className="bg-card/90 backdrop-blur text-[10px]">
+              <span className="w-1.5 h-1.5 rounded-full bg-critical mr-1.5 inline-block" /> Compromised
             </Badge>
-            <Badge variant="outline" className="bg-background/80 backdrop-blur font-mono text-[10px]">
-              <span className="w-2 h-2 rounded-full bg-contained mr-1 inline-block" /> Contained
+            <Badge variant="outline" className="bg-card/90 backdrop-blur text-[10px]">
+              <span className="w-1.5 h-1.5 rounded-full bg-contained mr-1.5 inline-block" /> Contained
             </Badge>
           </div>
 
           {isLoading ? (
             <div className="w-full h-full flex flex-col items-center justify-center bg-card">
-              <Activity className="w-12 h-12 text-primary animate-pulse mb-4" />
-              <div className="font-mono text-primary animate-pulse">Rendering Topology...</div>
+              <Activity className="w-8 h-8 text-muted-foreground animate-pulse mb-3" />
+              <div className="text-sm text-muted-foreground">Rendering topology…</div>
             </div>
           ) : (
             <ReactFlow
@@ -278,19 +275,19 @@ export default function AttackMap() {
               onEdgesChange={onEdgesChange}
               nodeTypes={nodeTypes}
               fitView
-              className="bg-background/50"
+              className="bg-background"
               proOptions={{ hideAttribution: true }}
             >
-              <Background color="hsl(var(--border))" gap={16} size={1} />
-              <Controls className="bg-card border-border fill-primary" />
+              <Background color="hsl(var(--border))" gap={20} size={1} />
+              <Controls className="bg-card border border-border shadow-sm" />
               <MiniMap 
                 nodeColor={(node) => {
                   if (node.data?.status === 'anomalous') return 'hsl(var(--critical))';
                   if (node.data?.status === 'contained') return 'hsl(var(--contained))';
                   return 'hsl(var(--primary))';
                 }}
-                maskColor="hsl(var(--background) / 0.8)"
-                className="bg-card border border-border rounded"
+                maskColor="rgba(250,250,249,0.8)"
+                className="bg-card border border-border rounded-lg shadow-sm"
               />
             </ReactFlow>
           )}

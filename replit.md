@@ -1,19 +1,26 @@
-# [Project name]
+# SentinelGrid
 
-_Replace the heading above with the project's name, and this line with one sentence describing what this app does for users._
+An AI-powered Cyber Resilience command center for government/critical infrastructure SOC teams. Detects behavioral anomalies across IT/OT networks, maps them to MITRE ATT&CK attack chains, and orchestrates containment playbooks — compressing detection-to-response time from weeks to minutes.
 
 ## Run & Operate
 
-- `pnpm --filter @workspace/api-server run dev` — run the API server (port 5000)
+- `pnpm --filter @workspace/sentinel-grid run dev` — run the React/Vite frontend
+- `pnpm --filter @workspace/api-server run dev` — run the Express API server (port from `PORT` env var)
 - `pnpm run typecheck` — full typecheck across all packages
 - `pnpm run build` — typecheck + build all packages
 - `pnpm --filter @workspace/api-spec run codegen` — regenerate API hooks and Zod schemas from the OpenAPI spec
-- `pnpm --filter @workspace/db run push` — push DB schema changes (dev only)
-- Required env: `DATABASE_URL` — Postgres connection string
+- `pnpm --filter @workspace/db run push` — push DB schema changes to Postgres (dev only)
+
+## Required Environment Variables
+
+- `DATABASE_URL` — Postgres connection string (required for API server)
+- `SESSION_SECRET` — session signing secret (already set in Replit Secrets)
+- `PORT` — assigned automatically per artifact by Replit
 
 ## Stack
 
 - pnpm workspaces, Node.js 24, TypeScript 5.9
+- Frontend: React + Vite + Tailwind CSS + shadcn/ui + React Flow
 - API: Express 5
 - DB: PostgreSQL + Drizzle ORM
 - Validation: Zod (`zod/v4`), `drizzle-zod`
@@ -22,15 +29,22 @@ _Replace the heading above with the project's name, and this line with one sente
 
 ## Where things live
 
-_Populate as you build — short repo map plus pointers to the source-of-truth file for DB schema, API contracts, theme files, etc._
+- `artifacts/sentinel-grid/` — React/Vite frontend (dashboard, incidents, attack maps, etc.)
+- `artifacts/api-server/` — Express REST API server
+- `lib/db/` — Drizzle ORM schema and DB connection (`src/schema/index.ts` is source of truth)
+- `lib/api-spec/` — OpenAPI spec (source of truth for API contract)
+- `lib/api-client-react/` — generated React Query hooks (from Orval codegen)
+- `lib/api-zod/` — generated Zod validators (from Orval codegen)
 
 ## Architecture decisions
 
-_Populate as you build — non-obvious choices a reader couldn't infer from the code (3-5 bullets)._
+- API contract is defined in `lib/api-spec` as an OpenAPI spec; client hooks and Zod validators are generated from it via Orval — never edit generated files directly.
+- DB schema lives in `lib/db/src/schema/` and is shared across the monorepo via the `@workspace/db` package.
+- Frontend communicates with the API server via generated hooks in `@workspace/api-client-react`.
 
 ## Product
 
-_Describe the high-level user-facing capabilities of this app once they exist._
+SentinelGrid is a SOC command center targeting Indian government agencies and critical national infrastructure. Key features: live security operations dashboard, behavioral anomaly detection (simulated), MITRE ATT&CK mapping, APT campaign attribution, and an autonomous incident response orchestrator with human-in-the-loop escalation.
 
 ## User preferences
 
@@ -38,8 +52,10 @@ _Populate as you build — explicit user instructions worth remembering across s
 
 ## Gotchas
 
-_Populate as you build — sharp edges, "always run X before Y" rules._
+- Always run `pnpm --filter @workspace/db run push` after schema changes in dev.
+- API client hooks and Zod validators are generated — run `pnpm --filter @workspace/api-spec run codegen` after OpenAPI spec changes.
 
 ## Pointers
 
-- See the `pnpm-workspace` skill for workspace structure, TypeScript setup, and package details
+- See the `pnpm-workspace` skill for workspace structure, TypeScript setup, and package details.
+- Full product brief: `attached_assets/Pasted-REPLIT-AGENT-BUILD-BRIEF-SentinelGrid-AI-Driven-Cyber-R_1784459452359.txt`

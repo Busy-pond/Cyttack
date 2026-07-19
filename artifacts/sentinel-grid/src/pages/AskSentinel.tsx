@@ -2,7 +2,7 @@ import { AppLayout } from "@/components/layout/AppLayout";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useSendChatMessage } from "@workspace/api-client-react";
-import { Terminal, Send, ShieldAlert, Cpu } from "lucide-react";
+import { Terminal, Send, ShieldAlert, Cpu, ArrowRight } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
 import { useAuth } from "@/context/AuthContext";
 
@@ -19,13 +19,12 @@ export default function AskSentinel() {
     {
       id: 'welcome',
       role: 'assistant',
-      content: `SentinelGrid AI initialized. Authenticated as ${role}. How can I assist with your investigation today?`,
+      content: `SentinelGrid AI ready. Authenticated as ${role}. Ask me to analyze logs, explain detected techniques, or recommend containment steps.`,
       timestamp: new Date()
     }
   ]);
   const [input, setInput] = useState("");
   const messagesEndRef = useRef<HTMLDivElement>(null);
-  
   const sendMessage = useSendChatMessage();
 
   const scrollToBottom = () => {
@@ -43,7 +42,6 @@ export default function AskSentinel() {
     const userMessage = input.trim();
     setInput("");
     
-    // Add user message to UI immediately
     setMessages(prev => [...prev, {
       id: Date.now().toString(),
       role: 'user',
@@ -66,7 +64,7 @@ export default function AskSentinel() {
           setMessages(prev => [...prev, {
             id: Date.now().toString() + '-err',
             role: 'assistant',
-            content: "ERROR: Secure uplink failed. Please try your query again.",
+            content: "Unable to reach the AI. Please try again.",
             timestamp: new Date()
           }]);
         }
@@ -78,78 +76,77 @@ export default function AskSentinel() {
     <AppLayout>
       <div className="flex flex-col h-[calc(100vh-8rem)]">
         <div className="mb-6">
-          <h1 className="text-3xl font-heading font-bold tracking-tight flex items-center gap-3">
-            <Terminal className="w-8 h-8 text-primary" />
-            Ask SentinelGrid
-          </h1>
-          <p className="text-muted-foreground mt-1 font-mono text-sm">AI-assisted threat intelligence and log analysis.</p>
+          <p className="text-[10px] font-medium uppercase tracking-widest text-muted-foreground mb-2">AI PREDICTION</p>
+          <h1 className="text-3xl font-heading font-bold tracking-tight text-foreground">Ask SentinelGrid</h1>
+          <p className="text-muted-foreground text-sm mt-1">AI-assisted threat intelligence, log analysis, and playbook guidance.</p>
         </div>
 
-        <div className="flex-1 bg-card border border-border rounded-xl shadow-lg flex flex-col overflow-hidden relative">
-          {/* Background decoration */}
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-primary/5 rounded-full blur-[100px] pointer-events-none" />
-          
-          <div className="p-3 bg-secondary/50 border-b border-border flex items-center justify-between text-xs font-mono text-muted-foreground z-10">
+        <div className="flex-1 bg-card border border-border rounded-xl shadow-sm flex flex-col overflow-hidden">
+          {/* Header bar */}
+          <div className="px-5 py-3 bg-secondary/50 border-b border-border flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
-              LLM-SOC-CORE-v9 ONLINE
+              <span className="w-2 h-2 rounded-full bg-low" />
+              <span className="text-xs font-medium text-foreground">SentinelGrid AI</span>
+              <span className="text-xs text-muted-foreground">· LLM-SOC-CORE</span>
             </div>
-            <div>ENC: AES-256-GCM</div>
+            <span className="text-[10px] text-muted-foreground font-mono">AES-256-GCM</span>
           </div>
 
-          <div className="flex-1 overflow-y-auto p-4 md:p-6 space-y-6 terminal-scroll z-10">
+          {/* Messages */}
+          <div className="flex-1 overflow-y-auto p-5 md:p-6 space-y-5 surface-scroll">
             {messages.map((msg) => (
               <div 
                 key={msg.id} 
-                className={`flex gap-4 max-w-[85%] ${msg.role === 'user' ? 'ml-auto flex-row-reverse' : ''}`}
+                className={`flex gap-3 max-w-[85%] fade-up ${msg.role === 'user' ? 'ml-auto flex-row-reverse' : ''}`}
               >
-                <div className={`w-8 h-8 rounded shrink-0 flex items-center justify-center border
-                  ${msg.role === 'user' ? 'bg-secondary border-border text-foreground' : 'bg-primary/20 border-primary text-primary'}
-                `}>
-                  {msg.role === 'user' ? <ShieldAlert className="w-4 h-4" /> : <Cpu className="w-4 h-4" />}
+                <div className={`w-7 h-7 rounded-lg shrink-0 flex items-center justify-center border ${
+                  msg.role === 'user' 
+                    ? 'bg-secondary border-border text-muted-foreground' 
+                    : 'bg-primary border-primary text-primary-foreground'
+                }`}>
+                  {msg.role === 'user' ? <ShieldAlert className="w-3.5 h-3.5" /> : <Cpu className="w-3.5 h-3.5" />}
                 </div>
                 
-                <div className={`rounded-lg p-4 font-mono text-sm leading-relaxed border shadow-sm
-                  ${msg.role === 'user' 
-                    ? 'bg-secondary/50 border-border text-foreground' 
-                    : 'bg-card border-primary/30 text-primary-foreground shadow-[0_0_15px_rgba(0,229,199,0.05)]'
-                  }
-                `}>
+                <div className={`rounded-xl px-4 py-3 text-sm leading-relaxed border ${
+                  msg.role === 'user' 
+                    ? 'bg-secondary border-border text-foreground' 
+                    : 'bg-card border-border text-foreground shadow-sm'
+                }`}>
                   {msg.content}
                 </div>
               </div>
             ))}
             
             {sendMessage.isPending && (
-              <div className="flex gap-4 max-w-[85%]">
-                <div className="w-8 h-8 rounded shrink-0 flex items-center justify-center border bg-primary/20 border-primary text-primary">
-                  <Cpu className="w-4 h-4 animate-pulse" />
+              <div className="flex gap-3 max-w-[85%]">
+                <div className="w-7 h-7 rounded-lg shrink-0 flex items-center justify-center border bg-primary border-primary text-primary-foreground">
+                  <Cpu className="w-3.5 h-3.5" />
                 </div>
-                <div className="rounded-lg p-4 bg-card border border-primary/30 flex items-center gap-2">
-                  <span className="w-2 h-2 rounded-full bg-primary animate-bounce" style={{ animationDelay: '0ms' }} />
-                  <span className="w-2 h-2 rounded-full bg-primary animate-bounce" style={{ animationDelay: '150ms' }} />
-                  <span className="w-2 h-2 rounded-full bg-primary animate-bounce" style={{ animationDelay: '300ms' }} />
+                <div className="rounded-xl px-4 py-3 bg-card border border-border flex items-center gap-1.5">
+                  <span className="w-1.5 h-1.5 rounded-full bg-primary animate-bounce" style={{ animationDelay: '0ms' }} />
+                  <span className="w-1.5 h-1.5 rounded-full bg-primary animate-bounce" style={{ animationDelay: '150ms' }} />
+                  <span className="w-1.5 h-1.5 rounded-full bg-primary animate-bounce" style={{ animationDelay: '300ms' }} />
                 </div>
               </div>
             )}
             <div ref={messagesEndRef} />
           </div>
 
-          <div className="p-4 bg-card border-t border-border z-10">
-            <form onSubmit={handleSubmit} className="relative flex items-center gap-2">
-              <span className="text-primary font-mono ml-2 font-bold">{'>'}</span>
+          {/* Input */}
+          <div className="p-4 border-t border-border bg-card">
+            <form onSubmit={handleSubmit} className="flex items-center gap-3">
               <Input
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
-                placeholder="Query system logs, analyze IOCs, or request mitigation steps..."
-                className="flex-1 bg-transparent border-none shadow-none focus-visible:ring-0 font-mono"
+                placeholder="Ask about IOCs, MITRE techniques, containment steps..."
+                className="flex-1 bg-secondary border-border focus-visible:ring-primary/30 text-sm"
                 disabled={sendMessage.isPending}
               />
               <Button 
                 type="submit" 
                 size="icon" 
                 disabled={!input.trim() || sendMessage.isPending}
-                className="shrink-0"
+                className="bg-primary text-primary-foreground hover:bg-primary/90 shrink-0"
               >
                 <Send className="w-4 h-4" />
               </Button>

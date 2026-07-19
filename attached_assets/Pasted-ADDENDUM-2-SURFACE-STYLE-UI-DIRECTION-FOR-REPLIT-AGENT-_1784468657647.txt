@@ -1,0 +1,72 @@
+ADDENDUM 2 — "SURFACE-STYLE" UI DIRECTION FOR REPLIT AGENT
+(Reference: withsurface.com — clean, light, editorial B2B SaaS aesthetic)
+(Paste this AFTER the main SentinelGrid brief to restyle the UI in this direction instead of the dark cinematic theme. Choose ONE direction — either the dark "mission control" theme OR this light "Surface" theme — do not mix both.)
+
+============================================================
+WHAT THIS REFERENCE LOOKS LIKE (so Replit Agent understands the target)
+============================================================
+withsurface.com is a light-mode, minimal, editorial B2B SaaS site: white/off-white background, huge confident sans-serif headlines with tight tracking, generous whitespace, soft muted accent colors (not neon), rounded soft-cornered cards and video/screenshot frames with subtle shadows instead of glows, clean numbered step sections (1/2/3), simple icon+stat blocks in a clean grid, and understated hover/scroll animations rather than flashy cinematic effects. It reads as calm, credible, and "enterprise-trustworthy" rather than dramatic.
+
+Translate that calm-credibility aesthetic to SentinelGrid while keeping the security-dashboard function intact — the app should feel like a premium enterprise security product a CISO would trust, not a neon hacker-movie interface.
+
+============================================================
+1. COLOR SCHEME — REPLACE DARK THEME WITH LIGHT "SURFACE" PALETTE
+============================================================
+1.1 Background: off-white / warm light gray (#FAFAF9 or #F7F7F5) as the page base — NOT pure white, to avoid harsh glare.
+1.2 Cards/panels: pure white (#FFFFFF) with a very subtle border (#EAEAE8) and a soft, low-spread shadow (`shadow-sm`, e.g., `0 1px 3px rgba(0,0,0,0.04)`) — no glow effects.
+1.3 Primary text: near-black (#111111 / #1A1A1A), not pure black — softer, editorial feel.
+1.4 Secondary/muted text: warm gray (#6B6B68).
+1.5 Accent color: ONE confident but muted brand color used sparingly for CTAs, links, and key highlights — recommend a deep indigo or forest teal (#2B2E4A or #14532D-family) rather than electric neon cyan. Use it at maybe 5-10% of visual weight, not everywhere.
+1.6 Status colors (keep functional but desaturate to match the calmer palette): Critical = muted red (#C0392B), Warning = muted amber (#B7791F), Success/Healthy = muted green (#2F855A). These should look like confident, "designed" colors, not stock red/green/amber.
+1.7 Remove all neon glows, pulsing colored box-shadows, and dark-mode grid/circuit textures from the earlier dark-theme instructions — replace with plain soft drop-shadows and whitespace as the primary visual separators.
+
+============================================================
+2. TYPOGRAPHY — BIG, CONFIDENT, EDITORIAL
+============================================================
+2.1 Headline font: a clean grotesk/sans with tight letter-spacing for big headline moments — e.g., "Inter Tight," "Geist," or "Space Grotesk" at `font-bold tracking-tight`, sized large (`text-4xl` to `text-6xl` for hero/section headers) — mimic Surface's oversized confident headline treatment ("Helping Marketers Drive 30% More Demos").
+2.2 Body font: Inter, regular weight, generous line-height (`leading-relaxed`) for readability on white.
+2.3 Use short, punchy, benefit-driven headline copy on key screens instead of technical labels alone — e.g., instead of just "Dashboard," use a headline like "Watch SentinelGrid Stop an Attack in Real Time" above the Mission Control view, echoing Surface's habit of framing every section around an outcome/benefit, not just a feature name.
+2.4 Section eyebrow labels: small uppercase tracked-out labels above headings (e.g., "LIVE SIMULATION", "THE PROBLEM", "ENTERPRISE-READY" style from the reference) — add these above major sections: e.g., "ACTIVE INCIDENT", "AI PREDICTION", "MISSION OUTCOME."
+
+============================================================
+3. LAYOUT & WHITESPACE
+============================================================
+3.1 Increase whitespace significantly versus the dark cinematic version: page padding `p-10` to `p-16` on desktop, section gaps `gap-16` to `gap-24` between major blocks — Surface's layout breathes; SentinelGrid's should too.
+3.2 Frame key visuals (Digital Twin diagram, Attack Map, incident timeline) inside a clean rounded-corner "device frame" card with a soft shadow and thin border — similar to how Surface frames product screenshots/videos inside rounded browser-like containers. This makes technical visuals feel like polished product shots rather than raw dashboards.
+3.3 Use a numbered step layout (like Surface's "1 Capture & Qualify / 2 Route & Book / 3 Recover & Nurture") for the attack story sequence itself: "1 Detect · 2 Predict · 3 Respond · 4 Recover" as a horizontal or vertical numbered rail with large numerals, short bold titles, and one-line descriptions — replace the earlier neon "Demo Timeline rail" with this cleaner numbered-step version.
+3.4 Stat blocks (MissionMetrics / Executive Summary) should mimic Surface's icon + huge-number + short-label stat grid: small muted icon top-left, oversized number (`text-5xl font-bold`), short label below in muted gray, laid out in a clean `grid-cols-2 md:grid-cols-4` with generous gaps and no card borders needed — numbers on plain background, letting whitespace do the separating.
+
+============================================================
+4. COMPONENTS — RESTYLE SPECIFICS
+============================================================
+4.1 Buttons: solid dark/near-black primary button with white text, `rounded-full` or `rounded-lg`, subtle hover state (slight darken + scale), small arrow icon suffix on primary CTAs (mirroring Surface's "GET STARTED →") — e.g., "Start Live Attack Simulation →".
+4.2 Secondary buttons: outline style, transparent background, thin border, text-only hover underline — mirrors Surface's "MANIFESTO" secondary link-button treatment.
+4.3 Badges/pills (severity, status): light tinted background matching the muted status color at ~10% opacity with the status color as text/border (e.g., light red-tinted pill with dark red text for "Critical") instead of solid neon-colored badges.
+4.4 Cards showing "problem → solution" framing: for the Incident Detail view, consider explicitly structuring it as Surface does — a short "problem" framing (what went wrong / what was detected) followed immediately by the "solution" framing (what SentinelGrid is doing about it) — this problem→solution narrative pattern is core to Surface's persuasive structure and works well for showing judges cause-and-effect.
+4.5 Logos/partner-style row: add a subtle "Trusted by" style strip using placeholder sector/agency names (e.g., stylized wordmarks for "Power Grid Authority," "AIIMS," "Indian Railways," "CBSE") in grayscale, low-opacity, on the Welcome screen — mirrors Surface's customer-logo strip and adds instant institutional credibility for judges.
+4.6 Testimonial-style card (optional bonus): add one or two short quote-style cards on the Executive Summary or Victory screen framed as if from a "CISO" or "Security Analyst" persona — e.g., a short quote like "Response time went from days to seconds" with a name/title/sector — mirrors Surface's testimonial section and adds a persuasive, product-marketing polish layer on top of the technical demo.
+
+============================================================
+5. MOTION — SUBTLE, NOT CINEMATIC
+============================================================
+5.1 Replace pulsing neon glows and radar sweeps with subtle, restrained motion: fade-up on scroll (`opacity 0→1`, `translateY 12px→0`, 400-500ms, slight stagger between elements) for sections entering the viewport — this is Surface's dominant motion language, not flashing/pulsing.
+5.2 Hover states: gentle scale (`1.0 → 1.02`) and shadow deepen on cards, no color-glow hover effects.
+5.3 Video/diagram frames (Digital Twin, Attack Map): if animating the attack pulse, keep it clean and minimal — a simple color-fill/line-draw animation rather than a glowing traveling particle — matches the calmer aesthetic.
+5.4 Numbers still count up (keep this from the earlier brief) but ease more gently and don't pair it with glow/flash — just a clean number tick-up on scroll-into-view.
+5.5 Keep transitions between story stages as simple cross-fades (300ms) rather than dramatic full-screen flashes/countdowns — if keeping the countdown screen from the original brief, restyle it to be minimal (large centered numeral on white/off-white, no red flash) rather than cinematic.
+
+============================================================
+6. WHAT TO KEEP FROM THE ORIGINAL FUNCTIONAL BRIEF
+============================================================
+6.1 Keep ALL functional features, data models, story sequencer logic, and page structure exactly as previously specified — this addendum changes ONLY color, typography, spacing, component styling, and motion intensity.
+6.2 Keep status-communication features (health bars, confidence meters, kill-chain progress) but restyle them using this section's muted palette and calmer motion — e.g., health bar fill in muted green/red rather than neon, no glow.
+6.3 Keep the guided story/demo-sequencer approach from the earlier addendum — Surface's own homepage is itself structured as a guided narrative (Problem → Solution → Proof/Stats → Trust → CTA), which actually reinforces the "tell a story" instruction already in the brief. Structure the SentinelGrid demo narrative using this same rhythm: Problem (attack detected) → Solution (AI response) → Proof (before/after metrics) → Trust (audit trail / enterprise-ready framing) → Close (mission complete CTA).
+
+============================================================
+7. REPLIT EXECUTION NOTES
+============================================================
+7.1 Update Tailwind config theme tokens to the new light palette (Section 1) — remove all dark-mode-specific classes (`bg-slate-900`, neon box-shadows, dark grid textures) introduced in the earlier dark-theme addendum.
+7.2 Rebuild the global background: plain off-white (#FAFAF9), no circuit texture, no gradient glow — whitespace and typography carry the visual weight now.
+7.3 Re-theme all existing components (cards, badges, buttons, bars, meters) to the new palette and motion rules above without changing their underlying logic/props.
+7.4 QA pass: compare each screen side-by-side against withsurface.com's calm/confident/whitespace-heavy feel — if a screen still looks "dark hacker dashboard," it needs further restyling per Sections 1-5 above.
+7.5 Test readability: since this is now a light theme, double-check all status colors and text meet contrast requirements on white backgrounds (previously designed for dark backgrounds).

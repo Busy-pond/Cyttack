@@ -72,102 +72,76 @@
   --radius-xl: calc(var(--radius) + 4px);
 
   --animate-pulse-slow: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  --animate-fade-up: fade-up 0.4s ease forwards;
 }
 
 :root {
-  /* SentinelGrid Color Scheme */
-  /* Background: #0B0F19 */
-  --background: 223 39% 7%;
-  /* Foreground / Text primary: #E5E7EB */
-  --foreground: 220 14% 91%;
-  
-  /* Panels/cards: #131A2A */
-  --card: 222 38% 12%;
-  --card-foreground: 220 14% 91%;
-  /* Border: #1F2937 */
-  --card-border: 215 28% 17%;
-  --border: 215 28% 17%;
+  /* Surface Light Palette */
+  /* Background: #FAFAF9 — off-white, warm */
+  --background: 60 11% 98%;
+  /* Primary text: #1A1A1A */
+  --foreground: 0 0% 10%;
 
-  --popover: 222 38% 12%;
-  --popover-foreground: 220 14% 91%;
-  --popover-border: 215 28% 17%;
+  /* Cards: #FFFFFF with subtle border */
+  --card: 0 0% 100%;
+  --card-foreground: 0 0% 10%;
+  /* Border: #EAEAE8 */
+  --card-border: 60 5% 91%;
+  --border: 60 5% 91%;
 
-  /* Primary accent: #00E5C7 */
-  --primary: 172 100% 45%;
-  --primary-foreground: 223 39% 7%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 0 0% 10%;
+  --popover-border: 60 5% 91%;
 
-  --secondary: 215 28% 17%;
-  --secondary-foreground: 220 14% 91%;
+  /* Primary accent: deep indigo #2B2E4A */
+  --primary: 233 27% 23%;
+  --primary-foreground: 0 0% 100%;
 
-  --muted: 215 28% 17%;
-  /* Text secondary: #9CA3AF */
-  --muted-foreground: 215 16% 65%;
+  /* Secondary: very light warm gray */
+  --secondary: 60 11% 96%;
+  --secondary-foreground: 0 0% 10%;
 
-  --accent: 172 100% 45%;
-  --accent-foreground: 223 39% 7%;
+  --muted: 60 11% 96%;
+  /* Muted text: #6B6B68 */
+  --muted-foreground: 60 2% 42%;
 
-  /* Danger/critical: #FF4D4D */
-  --destructive: 0 100% 65%;
-  --destructive-foreground: 220 14% 91%;
+  --accent: 233 27% 23%;
+  --accent-foreground: 0 0% 100%;
 
-  --input: 215 28% 17%;
-  --ring: 172 100% 45%;
-  
-  /* Custom Severity Colors */
-  --critical: 0 100% 65%;      /* #FF4D4D */
-  --high: 25 95% 53%;          /* #F97316 */
-  --medium: 45 93% 47%;        /* #FBBF24 */
-  --low: 172 100% 45%;         /* #00E5C7 */
-  --contained: 158 64% 52%;    /* #34D399 */
+  /* Critical/destructive: muted red #C0392B */
+  --destructive: 5 62% 46%;
+  --destructive-foreground: 0 0% 100%;
 
-  --chart-1: 172 100% 45%;
-  --chart-2: 0 100% 65%;
-  --chart-3: 25 95% 53%;
-  --chart-4: 45 93% 47%;
-  --chart-5: 158 64% 52%;
+  --input: 60 5% 91%;
+  --ring: 233 27% 23%;
 
-  --sidebar: 223 39% 7%;
-  --sidebar-foreground: 220 14% 91%;
-  --sidebar-border: 215 28% 17%;
-  --sidebar-primary: 172 100% 45%;
-  --sidebar-primary-foreground: 223 39% 7%;
-  --sidebar-accent: 215 28% 17%;
-  --sidebar-accent-foreground: 220 14% 91%;
-  --sidebar-ring: 172 100% 45%;
+  /* Custom Severity Colors — desaturated, designed */
+  --critical: 5 62% 46%;       /* #C0392B — muted red */
+  --high: 38 71% 41%;          /* #B7791F — muted amber */
+  --medium: 38 71% 41%;        /* same amber for warning */
+  --low: 148 49% 36%;          /* #2F855A — muted green */
+  --contained: 148 49% 36%;    /* #2F855A */
+
+  --chart-1: 233 27% 23%;
+  --chart-2: 5 62% 46%;
+  --chart-3: 38 71% 41%;
+  --chart-4: 148 49% 36%;
+  --chart-5: 220 14% 60%;
+
+  /* Sidebar: white with border */
+  --sidebar: 0 0% 100%;
+  --sidebar-foreground: 0 0% 10%;
+  --sidebar-border: 60 5% 91%;
+  --sidebar-primary: 233 27% 23%;
+  --sidebar-primary-foreground: 0 0% 100%;
+  --sidebar-accent: 60 11% 96%;
+  --sidebar-accent-foreground: 0 0% 10%;
+  --sidebar-ring: 233 27% 23%;
 
   --app-font-sans: 'Inter', sans-serif;
   --app-font-heading: 'Space Grotesk', sans-serif;
   --app-font-mono: 'JetBrains Mono', monospace;
-  --radius: 0.25rem;
-}
-
-.dark {
-  --background: 223 39% 7%;
-  --foreground: 220 14% 91%;
-  --card: 222 38% 12%;
-  --card-foreground: 220 14% 91%;
-  --card-border: 215 28% 17%;
-  --border: 215 28% 17%;
-  --popover: 222 38% 12%;
-  --popover-foreground: 220 14% 91%;
-  --popover-border: 215 28% 17%;
-  --primary: 172 100% 45%;
-  --primary-foreground: 223 39% 7%;
-  --secondary: 215 28% 17%;
-  --secondary-foreground: 220 14% 91%;
-  --muted: 215 28% 17%;
-  --muted-foreground: 215 16% 65%;
-  --accent: 172 100% 45%;
-  --accent-foreground: 223 39% 7%;
-  --destructive: 0 100% 65%;
-  --destructive-foreground: 220 14% 91%;
-  --input: 215 28% 17%;
-  --ring: 172 100% 45%;
-  --critical: 0 100% 65%;
-  --high: 25 95% 53%;
-  --medium: 45 93% 47%;
-  --low: 172 100% 45%;
-  --contained: 158 64% 52%;
+  --radius: 0.5rem;
 }
 
 @layer base {
@@ -178,30 +152,50 @@
   body {
     @apply font-sans antialiased bg-background text-foreground;
   }
-  
+
   h1, h2, h3, h4, h5, h6 {
     @apply font-heading tracking-tight;
   }
 }
 
-.grid-bg {
-  background-image: 
-    linear-gradient(to right, rgba(255,255,255,0.03) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255,255,255,0.03) 1px, transparent 1px);
-  background-size: 24px 24px;
+/* Surface-style scrollbar */
+.surface-scroll::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+.surface-scroll::-webkit-scrollbar-track {
+  background: hsl(var(--secondary));
+}
+.surface-scroll::-webkit-scrollbar-thumb {
+  background: hsl(var(--border));
+  border-radius: 3px;
+}
+.surface-scroll::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--muted-foreground));
 }
 
+/* Keep terminal-scroll as alias */
 .terminal-scroll::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 5px;
+  height: 5px;
 }
 .terminal-scroll::-webkit-scrollbar-track {
-  background: hsl(var(--card)); 
+  background: hsl(var(--secondary));
 }
 .terminal-scroll::-webkit-scrollbar-thumb {
-  background: hsl(var(--border)); 
+  background: hsl(var(--border));
   border-radius: 3px;
 }
 .terminal-scroll::-webkit-scrollbar-thumb:hover {
-  background: hsl(var(--muted-foreground)); 
+  background: hsl(var(--muted-foreground));
+}
+
+/* Fade-up animation for scroll-into-view */
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.fade-up {
+  animation: fade-up 0.45s ease forwards;
 }
