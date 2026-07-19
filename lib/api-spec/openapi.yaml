@@ -3,20 +3,37 @@ info:
   # Do not change the title, if the title changes, the import paths will be broken
   title: Api
   version: 0.1.0
-  description: API specification
+  description: SentinelGrid API specification
 servers:
   - url: /api
     description: Base API path
 tags:
   - name: health
     description: Health operations
+  - name: entities
+    description: Network entities (devices, users, segments)
+  - name: alerts
+    description: Alerts and incidents
+  - name: campaigns
+    description: APT campaign threat intel
+  - name: playbooks
+    description: Incident response playbooks
+  - name: vulnerabilities
+    description: Vulnerability prioritization queue
+  - name: auditLog
+    description: Immutable audit trail
+  - name: dashboard
+    description: Dashboard summary and metrics
+  - name: chat
+    description: AI chat assistant
+  - name: simulation
+    description: Attack simulation demo mode
 paths:
   /healthz:
     get:
       operationId: healthCheck
       tags: [health]
       summary: Health check
-      description: Returns server health status
       responses:
         "200":
           description: Healthy
@@ -24,6 +41,315 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/HealthStatus"
+
+  /entities:
+    get:
+      operationId: listEntities
+      tags: [entities]
+      summary: List all network entities
+      responses:
+        "200":
+          description: List of entities
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Entity"
+
+  /alerts:
+    get:
+      operationId: listAlerts
+      tags: [alerts]
+      summary: List all alerts/incidents
+      parameters:
+        - name: status
+          in: query
+          schema:
+            type: string
+        - name: severity
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: List of alerts
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Alert"
+
+  /alerts/{id}:
+    get:
+      operationId: getAlert
+      tags: [alerts]
+      summary: Get alert detail
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Alert detail
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AlertDetail"
+        "404":
+          description: Not found
+    patch:
+      operationId: updateAlert
+      tags: [alerts]
+      summary: Update alert status
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AlertUpdate"
+      responses:
+        "200":
+          description: Updated alert
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Alert"
+
+  /campaigns:
+    get:
+      operationId: listCampaigns
+      tags: [campaigns]
+      summary: List APT campaign profiles
+      responses:
+        "200":
+          description: List of campaigns
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Campaign"
+
+  /playbooks:
+    get:
+      operationId: listPlaybooks
+      tags: [playbooks]
+      summary: List all playbooks
+      responses:
+        "200":
+          description: List of playbooks
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Playbook"
+
+  /playbooks/{id}:
+    get:
+      operationId: getPlaybook
+      tags: [playbooks]
+      summary: Get playbook by id
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Playbook detail
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Playbook"
+
+  /playbooks/{id}/execute:
+    post:
+      operationId: executePlaybook
+      tags: [playbooks]
+      summary: Execute a playbook step
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PlaybookExecuteInput"
+      responses:
+        "200":
+          description: Updated playbook
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Playbook"
+
+  /playbooks/{id}/approve:
+    post:
+      operationId: approvePlaybookStep
+      tags: [playbooks]
+      summary: Approve a human-gated playbook step
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PlaybookApproveInput"
+      responses:
+        "200":
+          description: Updated playbook
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Playbook"
+
+  /vulnerabilities:
+    get:
+      operationId: listVulnerabilities
+      tags: [vulnerabilities]
+      summary: List vulnerability queue
+      responses:
+        "200":
+          description: List of vulnerabilities
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Vulnerability"
+
+  /audit-log:
+    get:
+      operationId: listAuditLog
+      tags: [auditLog]
+      summary: Get audit log entries
+      responses:
+        "200":
+          description: List of audit log entries
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/AuditLogEntry"
+    post:
+      operationId: createAuditLogEntry
+      tags: [auditLog]
+      summary: Create audit log entry
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AuditLogInput"
+      responses:
+        "201":
+          description: Created entry
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AuditLogEntry"
+
+  /dashboard/summary:
+    get:
+      operationId: getDashboardSummary
+      tags: [dashboard]
+      summary: Get live dashboard summary metrics
+      responses:
+        "200":
+          description: Dashboard summary
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DashboardSummary"
+
+  /dashboard/risk-trend:
+    get:
+      operationId: getRiskTrend
+      tags: [dashboard]
+      summary: Get risk score trend over time
+      responses:
+        "200":
+          description: Risk score trend data points
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/RiskTrendPoint"
+
+  /chat:
+    post:
+      operationId: sendChatMessage
+      tags: [chat]
+      summary: Send message to AI chat assistant
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ChatMessageInput"
+      responses:
+        "200":
+          description: AI response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ChatResponse"
+
+  /simulation/start:
+    post:
+      operationId: startAttackSimulation
+      tags: [simulation]
+      summary: Trigger live attack simulation demo
+      responses:
+        "200":
+          description: Simulation started, returns new incident
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Alert"
+
+  /simulation/advance:
+    post:
+      operationId: advanceSimulation
+      tags: [simulation]
+      summary: Advance simulation to next attack stage
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SimulationAdvanceInput"
+      responses:
+        "200":
+          description: Advanced simulation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Alert"
+
 components:
   schemas:
     HealthStatus:
@@ -34,3 +360,344 @@ components:
       required:
         - status
 
+    Entity:
+      type: object
+      required: [id, name, type, criticality, status]
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        type:
+          type: string
+          enum: [user, server, workstation, ot-device, network-segment]
+        criticality:
+          type: string
+          enum: [low, medium, high, critical]
+        status:
+          type: string
+          enum: [normal, anomalous, contained]
+        baselineScore:
+          type: ["number", "null"]
+        currentScore:
+          type: ["number", "null"]
+        ipAddress:
+          type: ["string", "null"]
+        location:
+          type: ["string", "null"]
+
+    MitreTechnique:
+      type: object
+      required: [id, name, tactic]
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        tactic:
+          type: string
+
+    Alert:
+      type: object
+      required: [id, entityId, entityName, timestamp, anomalyScore, severity, status, attackStage, description]
+      properties:
+        id:
+          type: string
+        entityId:
+          type: string
+        entityName:
+          type: string
+        timestamp:
+          type: string
+        anomalyScore:
+          type: number
+        severity:
+          type: string
+          enum: [low, medium, high, critical]
+        status:
+          type: string
+          enum: [new, investigating, contained, resolved]
+        attackStage:
+          type: string
+          enum: [recon, initial_access, lateral_movement, exfiltration, impact]
+        description:
+          type: string
+        mitreTechniques:
+          type: array
+          items:
+            $ref: "#/components/schemas/MitreTechnique"
+        campaignId:
+          type: ["string", "null"]
+        campaignName:
+          type: ["string", "null"]
+        matchConfidence:
+          type: ["number", "null"]
+
+    AlertDetail:
+      type: object
+      required: [id, entityId, entityName, timestamp, anomalyScore, severity, status, attackStage, description, entity]
+      properties:
+        id:
+          type: string
+        entityId:
+          type: string
+        entityName:
+          type: string
+        timestamp:
+          type: string
+        anomalyScore:
+          type: number
+        severity:
+          type: string
+          enum: [low, medium, high, critical]
+        status:
+          type: string
+          enum: [new, investigating, contained, resolved]
+        attackStage:
+          type: string
+          enum: [recon, initial_access, lateral_movement, exfiltration, impact]
+        description:
+          type: string
+        mitreTechniques:
+          type: array
+          items:
+            $ref: "#/components/schemas/MitreTechnique"
+        campaignId:
+          type: ["string", "null"]
+        campaignName:
+          type: ["string", "null"]
+        matchConfidence:
+          type: ["number", "null"]
+        entity:
+          $ref: "#/components/schemas/Entity"
+        behaviorData:
+          type: array
+          items:
+            $ref: "#/components/schemas/BehaviorDataPoint"
+        playbook:
+          anyOf:
+            - $ref: "#/components/schemas/Playbook"
+            - type: "null"
+
+    AlertUpdate:
+      type: object
+      properties:
+        status:
+          type: string
+          enum: [new, investigating, contained, resolved]
+        attackStage:
+          type: string
+          enum: [recon, initial_access, lateral_movement, exfiltration, impact]
+
+    BehaviorDataPoint:
+      type: object
+      required: [time, baseline, actual]
+      properties:
+        time:
+          type: string
+        baseline:
+          type: number
+        actual:
+          type: number
+
+    Campaign:
+      type: object
+      required: [id, name, matchConfidence, targetSectors, associatedTTPs, description, originRegion, active]
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        matchConfidence:
+          type: number
+        targetSectors:
+          type: array
+          items:
+            type: string
+        associatedTTPs:
+          type: array
+          items:
+            type: string
+        description:
+          type: string
+        originRegion:
+          type: string
+        active:
+          type: boolean
+
+    PlaybookStep:
+      type: object
+      required: [step, action, requiresApproval, status]
+      properties:
+        step:
+          type: integer
+        action:
+          type: string
+        requiresApproval:
+          type: boolean
+        status:
+          type: string
+          enum: [pending, running, awaiting_approval, done, failed]
+
+    Playbook:
+      type: object
+      required: [id, name, linkedIncidentId, steps, overallStatus]
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        linkedIncidentId:
+          type: string
+        steps:
+          type: array
+          items:
+            $ref: "#/components/schemas/PlaybookStep"
+        overallStatus:
+          type: string
+          enum: [idle, running, awaiting_approval, completed, failed]
+
+    PlaybookExecuteInput:
+      type: object
+      required: [stepIndex]
+      properties:
+        stepIndex:
+          type: integer
+
+    PlaybookApproveInput:
+      type: object
+      required: [stepIndex]
+      properties:
+        stepIndex:
+          type: integer
+
+    Vulnerability:
+      type: object
+      required: [id, assetId, assetName, cveId, cvssScore, exploitabilityScore, businessCriticality, recommendedAction, patchStatus]
+      properties:
+        id:
+          type: string
+        assetId:
+          type: string
+        assetName:
+          type: string
+        cveId:
+          type: string
+        cvssScore:
+          type: number
+        exploitabilityScore:
+          type: number
+        businessCriticality:
+          type: string
+          enum: [low, medium, high, critical]
+        recommendedAction:
+          type: string
+          enum: [patch_now, patch_later, monitor]
+        patchStatus:
+          type: string
+          enum: [unpatched, in_progress, patched]
+        description:
+          type: ["string", "null"]
+
+    AuditLogEntry:
+      type: object
+      required: [id, timestamp, actor, actionType, description]
+      properties:
+        id:
+          type: string
+        timestamp:
+          type: string
+        actor:
+          type: string
+          enum: [system, analyst, ciso]
+        actionType:
+          type: string
+        description:
+          type: string
+        relatedIncidentId:
+          type: ["string", "null"]
+
+    AuditLogInput:
+      type: object
+      required: [actor, actionType, description]
+      properties:
+        actor:
+          type: string
+          enum: [system, analyst, ciso]
+        actionType:
+          type: string
+        description:
+          type: string
+        relatedIncidentId:
+          type: ["string", "null"]
+
+    DashboardSummary:
+      type: object
+      required: [activeIncidents, criticalAlerts, riskScore, mttd, mttr, entitiesMonitored, containedThreats, alertsByStage, alertsBySeverity]
+      properties:
+        activeIncidents:
+          type: integer
+        criticalAlerts:
+          type: integer
+        riskScore:
+          type: number
+        mttd:
+          type: number
+        mttr:
+          type: number
+        entitiesMonitored:
+          type: integer
+        containedThreats:
+          type: integer
+        alertsByStage:
+          type: array
+          items:
+            $ref: "#/components/schemas/CountByLabel"
+        alertsBySeverity:
+          type: array
+          items:
+            $ref: "#/components/schemas/CountByLabel"
+
+    CountByLabel:
+      type: object
+      required: [label, count]
+      properties:
+        label:
+          type: string
+        count:
+          type: integer
+
+    RiskTrendPoint:
+      type: object
+      required: [time, score]
+      properties:
+        time:
+          type: string
+        score:
+          type: number
+
+    ChatMessageInput:
+      type: object
+      required: [message]
+      properties:
+        message:
+          type: string
+        role:
+          type: ["string", "null"]
+
+    ChatResponse:
+      type: object
+      required: [reply]
+      properties:
+        reply:
+          type: string
+
+    SimulationAdvanceInput:
+      type: object
+      required: [incidentId, stage]
+      properties:
+        incidentId:
+          type: string
+        stage:
+          type: string
+          enum: [initial_access, lateral_movement, exfiltration, impact]

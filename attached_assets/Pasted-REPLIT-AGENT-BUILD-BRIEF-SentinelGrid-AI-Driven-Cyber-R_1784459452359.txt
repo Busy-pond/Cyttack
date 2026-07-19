@@ -1,0 +1,237 @@
+REPLIT AGENT BUILD BRIEF — "SentinelGrid: AI-Driven Cyber Resilience Platform for Critical National Infrastructure"
+
+============================================================
+1. APP OVERVIEW
+============================================================
+App Name: SentinelGrid
+
+One-liner: An AI-powered Cyber Resilience command center that detects behavioral anomalies across government IT/OT networks, maps them to MITRE ATT&CK attack chains, predicts adversary next moves, and autonomously orchestrates containment — compressing detection-to-response time from weeks to minutes.
+
+Core Problem It Solves:
+Indian government and critical infrastructure entities suffer from slow breach detection (weeks/months) because legacy signature-based tools can't catch low-and-slow Advanced Persistent Threats (APTs). SentinelGrid simulates a behavioral intelligence layer that continuously baselines "normal" activity across users, devices, and network segments, flags deviations in real time, correlates them against known attack frameworks (MITRE ATT&CK), and can autonomously execute pre-approved containment playbooks — all while keeping a human in the loop for high-impact decisions.
+
+Target User:
+SOC (Security Operations Center) analysts, CISOs, and IT security teams at government agencies and critical national infrastructure organizations (power grids, hospitals, exam boards, financial regulators) who need faster, smarter, explainable threat detection and response.
+
+============================================================
+2. FULL FEATURE LIST
+============================================================
+CORE FEATURES (must-have, judge-facing):
+1. Live Security Operations Dashboard — real-time-feel view of network health, active alerts, risk score, and MTTD/MTTR metrics.
+2. Behavioral Anomaly Detection Engine (simulated) — generates entity behavior baselines (users/devices/network segments) and flags deviations with an anomaly score (0-100) using a simple statistical/rule-based scoring algorithm over synthetic telemetry data (mocked as if streaming).
+3. MITRE ATT&CK Mapping View — every detected anomaly/incident is mapped to specific ATT&CK tactics & techniques (e.g., T1078 Valid Accounts, T1021 Lateral Movement), displayed as an interactive attack-chain graph/timeline.
+4. APT Campaign Attribution Panel — shows likely threat actor / campaign match with confidence %, based on matched TTP patterns (mock threat intel dataset).
+5. Autonomous Incident Response Orchestrator (SOAR simulation) — for each incident, shows a recommended containment playbook (isolate endpoint, revoke credentials, block IP, snapshot VM) with One-Click "Execute Playbook" (simulated execution with live status log) and a Human Escalation Gate for high-blast-radius actions requiring analyst approval.
+6. Vulnerability Prioritization Queue — ranked list of assets/CVEs by exploitability + asset criticality + observed threat actor TTPs, with "Patch Now / Patch Later / Monitor" recommendation.
+7. Cyber Resilience Digital Twin (simplified) — visual network topology map showing simulated attack path propagation ("what-if" toggle to simulate an attack spreading and show blast radius before/after mitigation).
+8. Full Audit Trail / Action Log — timestamped, immutable-style log of every detection, decision, and automated action taken (for compliance/auditability scoring criterion).
+9. Alert Detail Drill-down — click any alert to see: affected entity, behavioral deviation graph, related MITRE techniques, recommended response, confidence score.
+10. Risk Score Trend Chart — organization-wide cyber risk score over time (line chart), before/after automation impact.
+
+NICE-TO-HAVE (impress judges further, build if time permits):
+11. AI Chat Assistant ("Ask SentinelGrid") — a chat panel where analyst can ask natural-language questions like "What happened on Server-12 in the last hour?" and get a synthesized answer from mock data (can use a simple templated NLG or actual LLM call if API key available).
+12. Live "Attack Simulation" Demo Mode — a button that triggers a simulated APT campaign in real time (multi-stage: initial access → lateral movement → exfiltration attempt) so judges can watch detection + auto-response happen live.
+13. Dark/Light theme toggle.
+14. Export "Incident Report" as PDF/summary.
+15. Role-based login (Analyst vs CISO view).
+16. Notification toast system for new alerts.
+
+============================================================
+3. TECH STACK
+============================================================
+- Frontend: React (Vite) + TypeScript
+- Styling: Tailwind CSS + shadcn/ui components
+- Charts/Graphs: Recharts (line/bar charts) + React Flow (for attack-path graph / network topology / attack chain visualization)
+- Backend: Node.js + Express (or Next.js API routes if using Next.js instead — Next.js 14 App Router recommended for simplicity: one project, frontend+backend together)
+- Database: SQLite via Prisma ORM (lightweight, no external DB setup needed) — or in-memory JSON store if faster to build
+- Real-time feel: setInterval-based polling or WebSocket (socket.io) to simulate live telemetry/alerts streaming in
+- AI/LLM (optional, for Ask SentinelGrid + auto-generated incident summaries): Anthropic Claude API or OpenAI API (use whichever key is available in Replit Secrets; fallback to templated text generation if no key)
+- Icons: lucide-react
+- Animations: Framer Motion (for alert pop-ins, transitions, live pulse indicators)
+- No auth complexity: simple mock login (pick role, no real auth backend needed) unless nice-to-have #15 is built
+
+============================================================
+4. PAGES & USER FLOW
+============================================================
+1. Login / Role Select Screen
+   - SentinelGrid logo, tagline, "Enter as: SOC Analyst" or "CISO" button (no real auth, just sets a role in session/localStorage-equivalent React state)
+   - Navigates to Dashboard
+
+2. Main Dashboard (Home)
+   - Top bar: org name, live risk score gauge, MTTD/MTTR stat cards, active incidents count
+   - Center: Live Alert Feed (scrolling/streaming list of new anomalies with severity badges)
+   - Side: Risk Score Trend chart, Network Health summary
+   - "Trigger Attack Simulation" demo button (top right, prominent)
+   - Nav sidebar links to: Dashboard, Incidents, Attack Map, Vulnerability Queue, Digital Twin, Audit Log, Ask SentinelGrid
+
+3. Incidents Page
+   - Table of all detected incidents: entity, anomaly score, MITRE technique(s), status (New/Investigating/Contained), timestamp
+   - Click row → Incident Detail Modal/Page
+
+4. Incident Detail Page/Modal
+   - Entity behavior deviation graph (baseline vs actual)
+   - MITRE ATT&CK technique tags + attack chain mini-timeline (Recon → Initial Access → Lateral Movement → Exfiltration, highlighting current stage)
+   - APT campaign attribution card (e.g., "72% match: APT-Cluster 'Silent Ledger'")
+   - Recommended Playbook panel with steps + "Execute Playbook" button + Human Approval Gate toggle for critical steps
+   - Live execution log (simulated: "Isolating endpoint... Done. Revoking credential... Awaiting approval...")
+
+5. Attack Map / Digital Twin Page
+   - Network topology graph (React Flow nodes = servers/devices/segments, edges = connections)
+   - "Simulate Attack Path" toggle — animates a red path spreading node-to-node showing blast radius
+   - "Apply Mitigation" button shows contained/isolated nodes turning green
+
+6. Vulnerability Prioritization Page
+   - Ranked table: Asset, CVE ID, CVSS score, Exploitability (from mock threat intel), Business Criticality, Recommended Action
+   - Filter/sort controls
+
+7. Audit Log Page
+   - Chronological, read-only table of every system action: detection events, AI decisions, human approvals, playbook executions, with timestamps
+
+8. Ask SentinelGrid Page (chat panel)
+   - Simple chat UI, user types question, gets AI-generated or templated response referencing mock incident data
+
+Navigation: Persistent left sidebar across all pages (except Login) with icons for each section; top bar shows current role and org risk score always visible.
+
+============================================================
+5. UI & DESIGN INSTRUCTIONS
+============================================================
+Overall Vibe: Dark, high-tech "security command center" — think mission control / SOC war-room, polished and modern, not generic admin-panel-gray.
+
+Color Scheme:
+- Base: Deep navy/near-black background (#0B0F19 or #0A0E17)
+- Panels/cards: Slightly lighter dark slate (#131A2A) with subtle border (#1F2937)
+- Primary accent: Electric cyan/teal (#00E5C7 or #22D3EE) — for active/healthy states, highlights, CTAs
+- Alert/danger accent: Red-orange (#FF4D4D / #F97316) for high-severity alerts
+- Warning: Amber (#FBBF24)
+- Success/contained: Green (#34D399)
+- Text: Off-white (#E5E7EB) primary, muted gray (#9CA3AF) secondary
+
+Fonts:
+- Headings: "Space Grotesk" or "IBM Plex Sans" (technical, modern feel)
+- Body/data: "Inter"
+- Monospace (for logs, IDs, code): "JetBrains Mono" or "Fira Code"
+
+Layout Style:
+- Fixed left sidebar (icons + labels), fixed top bar with global stats
+- Card-based grid layout on dashboard
+- Generous spacing, rounded-xl corners (12-16px radius), soft glows on active/critical elements (box-shadow with accent color at low opacity)
+- Subtle grid/circuit-board pattern background texture on dark panels (very low opacity) to reinforce "cyber" theme
+
+Components/Animations:
+- Pulsing dot/ring animation on live/active alert indicators (Framer Motion)
+- Animated number count-up for risk score and stat cards on load
+- New alerts slide/fade into the live feed list
+- Attack path animation on Digital Twin: red line animates node-to-node with a "pulse" traveling effect
+- Severity badges: pill-shaped, color-coded (Critical=red, High=orange, Medium=amber, Low=cyan)
+- Loading skeletons for any async-feeling data fetch
+- Smooth page transitions (fade/slide) between routes
+- Use shadcn/ui Card, Badge, Table, Dialog, Tabs, Button components as the base, customized with the color scheme above
+
+Must look polished out of the box — no default unstyled HTML, no Bootstrap-looking components, no placeholder Lorem Ipsum visible to judges.
+
+============================================================
+6. DATA & APIs
+============================================================
+Since this is a hackathon prototype without live enterprise telemetry access, all data will be MOCKED/SIMULATED but structured realistically.
+
+DATA MODELS (Prisma schema or JSON structure):
+
+Entity (device/user/segment):
+- id, name, type (user|server|workstation|OT-device|network-segment), criticality (low|medium|high|critical), baselineProfile (JSON of normal behavior metrics), status (normal|anomalous|contained)
+
+Alert/Incident:
+- id, entityId, timestamp, anomalyScore (0-100), severity (low|medium|high|critical), status (new|investigating|contained|resolved), mitreTechniques (array of {id, name, tactic}), attackStage (recon|initial_access|lateral_movement|exfiltration|impact), description
+
+ThreatIntel/Campaign:
+- id, name (e.g., "Silent Ledger"), matchConfidence, associatedTTPs (array of MITRE IDs), targetSectors
+
+Playbook:
+- id, name, steps (array of {step, action, requiresApproval (bool), status}), linkedIncidentId
+
+Vulnerability:
+- id, assetId, cveId, cvssScore, exploitabilityScore, businessCriticality, recommendedAction, patchStatus
+
+AuditLogEntry:
+- id, timestamp, actor (system|analyst|CISO), actionType, description, relatedIncidentId
+
+MOCK DATA TO PRE-POPULATE:
+- 8-10 Entities (mix of servers named like "AIIMS-DB-01", "CBSE-ExamPortal-Server", "PowerGrid-SCADA-Node-3", "Finance-Regulator-VM-7", a few "User-Analyst-*" accounts)
+- 15-20 pre-generated Alerts/Incidents with varied severities and MITRE technique mappings (use REAL MITRE ATT&CK technique IDs/names for authenticity: T1078 Valid Accounts, T1021.001 Remote Desktop Protocol, T1486 Data Encrypted for Impact, T1041 Exfiltration Over C2 Channel, T1055 Process Injection, etc.)
+- 2-3 mock APT campaign profiles with fictional but realistic names
+- 10-12 mock Vulnerabilities with real-format CVE IDs (e.g., CVE-2024-XXXX style, fictional numbers fine) and CVSS scores
+- 20-30 Audit Log entries pre-populated to show history
+
+REAL API TO INTEGRATE (optional, adds authenticity):
+- MITRE ATT&CK data: Use the free MITRE ATT&CK STIX data (https://github.com/mitre-attack/attack-stix-data) — can fetch the enterprise-attack.json once and extract technique names/IDs/tactics for the mapping panel, OR simply hardcode a curated list of ~20 real technique IDs+names+tactics as a local JSON file (faster, recommended for hackathon time constraints).
+- NVD CVE API (optional): https://services.nvd.nist.gov/rest/json/cves/2.0 — can fetch a few real CVEs for the vulnerability table if time permits, otherwise use realistic mock CVEs.
+- If using an LLM for "Ask SentinelGrid" or auto-generated incident summaries: Anthropic API (https://api.anthropic.com/v1/messages) or OpenAI API — pass in the mock incident JSON as context and prompt for a natural-language summary.
+
+SIMULATED "LIVE" BEHAVIOR:
+- Use a setInterval on the frontend (or a WebSocket push from backend) every 8-15 seconds to inject a "new" alert from a pre-written pool into the live feed, incrementing counters and animating its arrival, to give the live-monitoring impression during a demo.
+
+============================================================
+7. STEP-BY-STEP BUILD INSTRUCTIONS FOR REPLIT AGENT
+============================================================
+Follow these steps in order. Build incrementally and verify each step works before moving to the next.
+
+STEP 1 — Project Setup
+1.1 Create a new Next.js 14 (App Router) + TypeScript project.
+1.2 Install and configure Tailwind CSS.
+1.3 Install shadcn/ui and initialize it with a dark theme as default.
+1.4 Install dependencies: framer-motion, recharts, reactflow, lucide-react, prisma, @prisma/client, socket.io (if using), zod.
+1.5 Set up Google Fonts: Space Grotesk, Inter, JetBrains Mono via next/font.
+1.6 Configure Tailwind theme colors as custom tokens matching the color scheme in Section 5 (e.g., background, panel, accent-cyan, danger, warning, success).
+
+STEP 2 — Data Layer
+2.1 Set up Prisma with SQLite (or use a simple in-memory/JSON data module in /lib/mockData.ts if faster).
+2.2 Define schema/types for Entity, Alert, Campaign, Playbook, Vulnerability, AuditLogEntry as described in Section 6.
+2.3 Create a seed script that populates all mock data described in Section 6 (entities, 15-20 alerts, campaigns, vulnerabilities, audit log entries). Run the seed.
+2.4 Create a local JSON file with ~20 curated real MITRE ATT&CK techniques (id, name, tactic) for use in mapping.
+
+STEP 3 — Layout & Navigation Shell
+3.1 Build the root layout: persistent left Sidebar component (nav icons + labels: Dashboard, Incidents, Attack Map, Vulnerabilities, Audit Log, Ask SentinelGrid) and a TopBar component (org name, live risk score gauge, role indicator).
+3.2 Build the Login/Role Select page as the app's index route; on selection, store role in React context/localStorage and redirect to /dashboard.
+3.3 Apply the dark theme styling globally per Section 5.
+
+STEP 4 — Dashboard Page
+4.1 Build stat cards (Active Incidents, MTTD, MTTR, Risk Score) with animated count-up.
+4.2 Build the Risk Score Trend line chart (Recharts) using mock historical data.
+4.3 Build the Live Alert Feed component: renders alerts from mock data pool, animates new items sliding in, uses setInterval to append a "new" alert every 10 seconds from a reserve pool (cap total, keep newest at top).
+4.4 Add the "Trigger Attack Simulation" button (wire up fully in Step 8).
+
+STEP 5 — Incidents & Incident Detail
+5.1 Build Incidents table page listing all alerts with sortable/filterable columns (severity, status, timestamp).
+5.2 Build Incident Detail view (modal or route /incidents/[id]) showing: entity info, anomaly score visualization, matched MITRE techniques as tags, mini attack-chain timeline component (Recon→Initial Access→Lateral Movement→Exfiltration with current stage highlighted), APT campaign attribution card, and Playbook panel.
+5.3 Build the Playbook execution UI: list of steps, "Execute Playbook" button triggers sequential simulated status updates (use setTimeout chain: "Isolating endpoint..." → "Done" → next step), and any step marked requiresApproval pauses and shows an "Approve" button before continuing.
+5.4 On playbook execution, write entries to the Audit Log data store.
+
+STEP 6 — Attack Map / Digital Twin
+6.1 Build network topology visualization using React Flow: nodes for each mock Entity, edges representing plausible connections.
+6.2 Add a "Simulate Attack Path" toggle button that animates a red-highlighted path traveling across connected nodes (use Framer Motion or React Flow edge animation).
+6.3 Add "Apply Mitigation" button that turns affected nodes green/contained after a short delay.
+
+STEP 7 — Vulnerability Queue Page
+7.1 Build a sortable/filterable table of mock vulnerabilities with columns: Asset, CVE ID, CVSS Score, Exploitability, Business Criticality, Recommended Action.
+7.2 Color-code rows/badges by priority.
+
+STEP 8 — Attack Simulation Demo Mode
+8.1 Wire the Dashboard "Trigger Attack Simulation" button to run a scripted sequence: create a new high-severity alert with attackStage starting at "initial_access", show it appear in the Live Alert Feed with a pulsing critical badge, after a few seconds auto-advance attackStage to "lateral_movement" (update Attack Map to show path animating), then to "exfiltration", then auto-trigger the recommended Playbook execution with one approval gate requiring the user to click "Approve" to continue — demonstrating the full detect→attribute→respond pipeline live.
+
+STEP 9 — Audit Log Page
+9.1 Build a reverse-chronological table of all AuditLogEntry records (pre-seeded + newly generated from simulation actions), read-only styling to emphasize immutability.
+
+STEP 10 — Ask SentinelGrid (Chat Assistant)
+10.1 Build a simple chat UI (message list + input box).
+10.2 On user message, send the question plus relevant mock incident/entity JSON as context to an LLM API call (Anthropic or OpenAI, using Replit Secrets for API key) with a system prompt: "You are a SOC assistant. Answer only using the provided incident data context, be concise and technical." If no API key is available, fall back to simple templated responses based on keyword matching against mock data.
+
+STEP 11 — Polish Pass
+11.1 Add Framer Motion page transitions between routes.
+11.2 Add loading skeletons anywhere data "loads."
+11.3 Verify all severity badges, colors, and fonts are consistent per Section 5 across every page.
+11.4 Test the full demo flow end-to-end: Login → Dashboard → Trigger Simulation → watch alert appear → click into Incident Detail → see MITRE mapping + campaign attribution → execute playbook with approval gate → check Attack Map shows containment → check Audit Log recorded everything.
+11.5 Add a favicon and browser tab title "SentinelGrid | Cyber Resilience Platform".
+
+STEP 12 — Final Check
+12.1 Ensure app runs with a single command (npm run dev) with no console errors.
+12.2 Ensure all mock data is realistic-looking (no "Lorem Ipsum," no "test123" names) and every page has content pre-populated on first load (no empty states during a live judge demo).
+12.3 Confirm responsive layout works reasonably on a laptop screen (primary demo device); mobile responsiveness is secondary priority.

@@ -1,0 +1,47 @@
+import { createContext, useContext, useState, useEffect, ReactNode } from "react";
+
+type Role = "SOC Analyst" | "CISO" | null;
+
+interface AuthContextType {
+  role: Role;
+  setRole: (role: Role) => void;
+  logout: () => void;
+}
+
+const AuthContext = createContext<AuthContextType | undefined>(undefined);
+
+export function AuthProvider({ children }: { children: ReactNode }) {
+  const [role, setRoleState] = useState<Role>(null);
+
+  useEffect(() => {
+    const saved = localStorage.getItem("sentinel_role") as Role;
+    if (saved) setRoleState(saved);
+  }, []);
+
+  const setRole = (newRole: Role) => {
+    setRoleState(newRole);
+    if (newRole) {
+      localStorage.setItem("sentinel_role", newRole);
+    } else {
+      localStorage.removeItem("sentinel_role");
+    }
+  };
+
+  const logout = () => {
+    setRole(null);
+  };
+
+  return (
+    <AuthContext.Provider value={{ role, setRole, logout }}>
+      {children}
+    </AuthContext.Provider>
+  );
+}
+
+export function useAuth() {
+  const context = useContext(AuthContext);
+  if (context === undefined) {
+    throw new Error("useAuth must be used within an AuthProvider");
+  }
+  return context;
+}

@@ -1,0 +1,207 @@
+@import 'tailwindcss';
+@import 'tw-animate-css';
+@plugin "@tailwindcss/typography";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+  --color-border: hsl(var(--border));
+  --color-input: hsl(var(--input));
+  --color-ring: hsl(var(--ring));
+
+  --color-card: hsl(var(--card));
+  --color-card-foreground: hsl(var(--card-foreground));
+  --color-card-border: hsl(var(--card-border));
+
+  --color-popover: hsl(var(--popover));
+  --color-popover-foreground: hsl(var(--popover-foreground));
+  --color-popover-border: hsl(var(--popover-border));
+
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+  --color-primary-border: var(--primary-border);
+
+  --color-secondary: hsl(var(--secondary));
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
+  --color-secondary-border: var(--secondary-border);
+
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+  --color-muted-border: var(--muted-border);
+
+  --color-accent: hsl(var(--accent));
+  --color-accent-foreground: hsl(var(--accent-foreground));
+  --color-accent-border: var(--accent-border);
+
+  --color-destructive: hsl(var(--destructive));
+  --color-destructive-foreground: hsl(var(--destructive-foreground));
+  --color-destructive-border: var(--destructive-border);
+
+  --color-chart-1: hsl(var(--chart-1));
+  --color-chart-2: hsl(var(--chart-2));
+  --color-chart-3: hsl(var(--chart-3));
+  --color-chart-4: hsl(var(--chart-4));
+  --color-chart-5: hsl(var(--chart-5));
+
+  --color-sidebar: hsl(var(--sidebar));
+  --color-sidebar-foreground: hsl(var(--sidebar-foreground));
+  --color-sidebar-border: hsl(var(--sidebar-border));
+  --color-sidebar-primary: hsl(var(--sidebar-primary));
+  --color-sidebar-primary-foreground: hsl(var(--sidebar-primary-foreground));
+  --color-sidebar-primary-border: var(--sidebar-primary-border);
+  --color-sidebar-accent: hsl(var(--sidebar-accent));
+  --color-sidebar-accent-foreground: hsl(var(--sidebar-accent-foreground));
+  --color-sidebar-accent-border: var(--sidebar-accent-border);
+  --color-sidebar-ring: hsl(var(--sidebar-ring));
+
+  --color-critical: hsl(var(--critical));
+  --color-high: hsl(var(--high));
+  --color-medium: hsl(var(--medium));
+  --color-low: hsl(var(--low));
+  --color-contained: hsl(var(--contained));
+
+  --font-sans: var(--app-font-sans);
+  --font-heading: var(--app-font-heading);
+  --font-mono: var(--app-font-mono);
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+
+  --animate-pulse-slow: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+:root {
+  /* SentinelGrid Color Scheme */
+  /* Background: #0B0F19 */
+  --background: 223 39% 7%;
+  /* Foreground / Text primary: #E5E7EB */
+  --foreground: 220 14% 91%;
+  
+  /* Panels/cards: #131A2A */
+  --card: 222 38% 12%;
+  --card-foreground: 220 14% 91%;
+  /* Border: #1F2937 */
+  --card-border: 215 28% 17%;
+  --border: 215 28% 17%;
+
+  --popover: 222 38% 12%;
+  --popover-foreground: 220 14% 91%;
+  --popover-border: 215 28% 17%;
+
+  /* Primary accent: #00E5C7 */
+  --primary: 172 100% 45%;
+  --primary-foreground: 223 39% 7%;
+
+  --secondary: 215 28% 17%;
+  --secondary-foreground: 220 14% 91%;
+
+  --muted: 215 28% 17%;
+  /* Text secondary: #9CA3AF */
+  --muted-foreground: 215 16% 65%;
+
+  --accent: 172 100% 45%;
+  --accent-foreground: 223 39% 7%;
+
+  /* Danger/critical: #FF4D4D */
+  --destructive: 0 100% 65%;
+  --destructive-foreground: 220 14% 91%;
+
+  --input: 215 28% 17%;
+  --ring: 172 100% 45%;
+  
+  /* Custom Severity Colors */
+  --critical: 0 100% 65%;      /* #FF4D4D */
+  --high: 25 95% 53%;          /* #F97316 */
+  --medium: 45 93% 47%;        /* #FBBF24 */
+  --low: 172 100% 45%;         /* #00E5C7 */
+  --contained: 158 64% 52%;    /* #34D399 */
+
+  --chart-1: 172 100% 45%;
+  --chart-2: 0 100% 65%;
+  --chart-3: 25 95% 53%;
+  --chart-4: 45 93% 47%;
+  --chart-5: 158 64% 52%;
+
+  --sidebar: 223 39% 7%;
+  --sidebar-foreground: 220 14% 91%;
+  --sidebar-border: 215 28% 17%;
+  --sidebar-primary: 172 100% 45%;
+  --sidebar-primary-foreground: 223 39% 7%;
+  --sidebar-accent: 215 28% 17%;
+  --sidebar-accent-foreground: 220 14% 91%;
+  --sidebar-ring: 172 100% 45%;
+
+  --app-font-sans: 'Inter', sans-serif;
+  --app-font-heading: 'Space Grotesk', sans-serif;
+  --app-font-mono: 'JetBrains Mono', monospace;
+  --radius: 0.25rem;
+}
+
+.dark {
+  --background: 223 39% 7%;
+  --foreground: 220 14% 91%;
+  --card: 222 38% 12%;
+  --card-foreground: 220 14% 91%;
+  --card-border: 215 28% 17%;
+  --border: 215 28% 17%;
+  --popover: 222 38% 12%;
+  --popover-foreground: 220 14% 91%;
+  --popover-border: 215 28% 17%;
+  --primary: 172 100% 45%;
+  --primary-foreground: 223 39% 7%;
+  --secondary: 215 28% 17%;
+  --secondary-foreground: 220 14% 91%;
+  --muted: 215 28% 17%;
+  --muted-foreground: 215 16% 65%;
+  --accent: 172 100% 45%;
+  --accent-foreground: 223 39% 7%;
+  --destructive: 0 100% 65%;
+  --destructive-foreground: 220 14% 91%;
+  --input: 215 28% 17%;
+  --ring: 172 100% 45%;
+  --critical: 0 100% 65%;
+  --high: 25 95% 53%;
+  --medium: 45 93% 47%;
+  --low: 172 100% 45%;
+  --contained: 158 64% 52%;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply font-sans antialiased bg-background text-foreground;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-heading tracking-tight;
+  }
+}
+
+.grid-bg {
+  background-image: 
+    linear-gradient(to right, rgba(255,255,255,0.03) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255,255,255,0.03) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+.terminal-scroll::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+.terminal-scroll::-webkit-scrollbar-track {
+  background: hsl(var(--card)); 
+}
+.terminal-scroll::-webkit-scrollbar-thumb {
+  background: hsl(var(--border)); 
+  border-radius: 3px;
+}
+.terminal-scroll::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--muted-foreground)); 
+}
