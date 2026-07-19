@@ -72,7 +72,7 @@ function Section({
   );
 }
 
-// ── Tab strip for hero ───────────────────────────────────────────────
+// ── Workflow Player tab definitions ──────────────────────────────────
 const HERO_TABS = [
   {
     id: "detect",
@@ -80,35 +80,10 @@ const HERO_TABS = [
     icon: Eye,
     title: "Anomaly detection in real time",
     desc: "Infrastructure telemetry is continuously monitored. Agents flag deviations from baseline the moment they occur — before an alert queue ever forms.",
-    color: "text-primary",
-    bg: "bg-primary/8",
-    visual: (
-      <div className="w-full h-52 flex items-center justify-center relative overflow-hidden rounded-xl bg-secondary border border-border">
-        <div className="absolute inset-0 flex flex-col gap-2 p-4 opacity-40">
-          {[85, 60, 90, 45, 78, 55, 92].map((v, i) => (
-            <div key={i} className="flex items-center gap-2">
-              <div className="w-16 text-[9px] text-muted-foreground font-mono shrink-0">
-                NODE-{String(i + 1).padStart(3, "0")}
-              </div>
-              <div className="flex-1 h-2 rounded-full bg-border overflow-hidden">
-                <div
-                  className="h-full rounded-full bg-primary"
-                  style={{ width: `${v}%` }}
-                />
-              </div>
-              <div className="w-8 text-[9px] text-muted-foreground font-mono">{v}%</div>
-            </div>
-          ))}
-        </div>
-        <div className="relative z-10 flex flex-col items-center gap-2">
-          <div className="w-14 h-14 rounded-full bg-critical/10 border border-critical/30 flex items-center justify-center">
-            <AlertTriangle className="w-7 h-7 text-critical" />
-          </div>
-          <div className="text-xs font-semibold text-foreground">Anomaly detected</div>
-          <div className="text-[10px] text-muted-foreground">NODE-004 · 3.2σ deviation</div>
-        </div>
-      </div>
-    ),
+    accentColor: "#0D9488",          // teal
+    panelBg: "rgba(13,148,136,0.06)",
+    tabColor: "text-teal-600",
+    barColor: "bg-teal-500",
   },
   {
     id: "predict",
@@ -116,34 +91,10 @@ const HERO_TABS = [
     icon: Brain,
     title: "Blast radius scored before impact",
     desc: "A Bayesian belief model calculates attack probability and propagation scope — so analysts focus on the 1 alert that matters, not the 10,000 that don't.",
-    color: "text-high",
-    bg: "bg-high/8",
-    visual: (
-      <div className="w-full h-52 flex items-center justify-center relative overflow-hidden rounded-xl bg-secondary border border-border">
-        <div className="flex flex-col items-center gap-3">
-          <div className="flex items-end gap-3">
-            {[
-              { label: "P(Breach)", val: 87, color: "bg-critical" },
-              { label: "P(Spread)", val: 62, color: "bg-high" },
-              { label: "P(Recovery)", val: 41, color: "bg-low" },
-            ].map((b) => (
-              <div key={b.label} className="flex flex-col items-center gap-1">
-                <div className="text-xs font-bold text-foreground">{b.val}%</div>
-                <div
-                  className={`w-10 ${b.color} rounded-t-sm`}
-                  style={{ height: `${b.val * 0.6}px` }}
-                />
-                <div className="text-[9px] text-muted-foreground">{b.label}</div>
-              </div>
-            ))}
-          </div>
-          <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-high/10 border border-high/20">
-            <Brain className="w-3.5 h-3.5 text-high" />
-            <span className="text-[10px] font-semibold text-high">HIGH CONFIDENCE</span>
-          </div>
-        </div>
-      </div>
-    ),
+    accentColor: "#B7791F",          // amber
+    panelBg: "rgba(183,121,31,0.06)",
+    tabColor: "text-amber-600",
+    barColor: "bg-amber-500",
   },
   {
     id: "respond",
@@ -151,28 +102,10 @@ const HERO_TABS = [
     icon: ShieldCheck,
     title: "Autonomous countermeasures, zero lag",
     desc: "Agents execute containment in isolated sandboxes. Auditable, reversible, and faster than any human approval cycle during the critical first seconds.",
-    color: "text-contained",
-    bg: "bg-contained/8",
-    visual: (
-      <div className="w-full h-52 flex flex-col justify-center gap-2 px-6 rounded-xl bg-secondary border border-border overflow-hidden">
-        {[
-          { action: "Isolate NODE-004 from network segment", status: "done", ms: "312ms" },
-          { action: "Block outbound traffic on port 445", status: "done", ms: "489ms" },
-          { action: "Snapshot memory state for forensics", status: "done", ms: "1.2s" },
-          { action: "Notify incident commander", status: "active", ms: "…" },
-        ].map((step, i) => (
-          <div key={i} className="flex items-center gap-3">
-            {step.status === "done" ? (
-              <CheckCircle2 className="w-4 h-4 text-contained shrink-0" />
-            ) : (
-              <Activity className="w-4 h-4 text-primary shrink-0 animate-pulse" />
-            )}
-            <div className="flex-1 text-xs text-foreground">{step.action}</div>
-            <div className="text-[10px] text-muted-foreground font-mono">{step.ms}</div>
-          </div>
-        ))}
-      </div>
-    ),
+    accentColor: "#2B2E4A",          // indigo/primary
+    panelBg: "rgba(43,46,74,0.06)",
+    tabColor: "text-indigo-700",
+    barColor: "bg-indigo-600",
   },
   {
     id: "recover",
@@ -180,29 +113,327 @@ const HERO_TABS = [
     icon: RefreshCw,
     title: "Audit trail auto-generated, compliance ready",
     desc: "Every agent action is traced end-to-end. Root-cause summary and timeline delivered automatically — so compliance and leadership see exactly what happened.",
-    color: "text-low",
-    bg: "bg-low/8",
-    visual: (
-      <div className="w-full h-52 flex flex-col justify-center gap-2 px-5 rounded-xl bg-secondary border border-border overflow-hidden">
-        <div className="text-[9px] font-semibold uppercase tracking-widest text-muted-foreground mb-1">
-          INCIDENT REPORT · AUTO-GENERATED
+    accentColor: "#2F855A",          // green
+    panelBg: "rgba(47,133,90,0.06)",
+    tabColor: "text-emerald-700",
+    barColor: "bg-emerald-500",
+  },
+];
+
+// ── Per-tab illustrated panels ────────────────────────────────────────
+function DetectPanel() {
+  const [highlighted, setHighlighted] = useState(3);
+  useEffect(() => {
+    const t = setInterval(() => setHighlighted((h) => (h + 1) % 7), 1800);
+    return () => clearInterval(t);
+  }, []);
+  const lines = [
+    { node: "NODE-001", event: "AUTH_SUCCESS user=admin", ok: true },
+    { node: "NODE-002", event: "NET_TRAFFIC bytes=1.2MB", ok: true },
+    { node: "NODE-003", event: "PROC_START cmd=svchost.exe", ok: true },
+    { node: "NODE-004", event: "ANOMALY 3.2σ deviation detected", ok: false },
+    { node: "NODE-005", event: "FILE_READ path=/etc/passwd", ok: true },
+    { node: "NODE-006", event: "AUTH_FAIL attempts=14", ok: false },
+    { node: "NODE-007", event: "NET_TRAFFIC bytes=0.3MB", ok: true },
+  ];
+  return (
+    <div className="w-full flex flex-col gap-1.5 font-mono text-[11px]">
+      {lines.map((l, i) => (
+        <div
+          key={i}
+          className="flex items-center gap-3 px-3 py-1.5 rounded-lg transition-all duration-500"
+          style={{
+            background:
+              i === highlighted
+                ? l.ok
+                  ? "rgba(13,148,136,0.10)"
+                  : "rgba(192,57,43,0.12)"
+                : "transparent",
+          }}
+        >
+          <span className="text-muted-foreground/50 w-20 shrink-0">{l.node}</span>
+          <span
+            className={`flex-1 ${
+              !l.ok ? "text-critical font-semibold" : "text-foreground/70"
+            }`}
+          >
+            {l.event}
+          </span>
+          {!l.ok && i === highlighted && (
+            <span className="text-[9px] font-bold uppercase tracking-widest bg-critical/10 text-critical px-1.5 py-0.5 rounded">
+              FLAGGED
+            </span>
+          )}
         </div>
-        {[
-          { label: "Detection time", value: "00:00:04" },
-          { label: "Containment time", value: "00:00:09" },
-          { label: "Blast radius", value: "1 node (contained)" },
-          { label: "Actions logged", value: "14 auditable steps" },
-          { label: "Compliance flags", value: "0 violations" },
-        ].map((row) => (
-          <div key={row.label} className="flex justify-between items-center">
-            <span className="text-[11px] text-muted-foreground">{row.label}</span>
-            <span className="text-[11px] font-semibold text-foreground">{row.value}</span>
+      ))}
+    </div>
+  );
+}
+
+function PredictPanel() {
+  const [score, setScore] = useState(12);
+  useEffect(() => {
+    const t = setInterval(
+      () => setScore((s) => (s >= 87 ? 12 : Math.min(87, s + 3))),
+      80
+    );
+    return () => clearInterval(t);
+  }, []);
+  const bars = [
+    { label: "P(Lateral Move)", val: Math.min(score, 74), color: "bg-amber-500" },
+    { label: "P(Data Exfil)", val: Math.min(score * 0.9, 63), color: "bg-critical" },
+    { label: "P(Persistence)", val: Math.min(score * 0.7, 51), color: "bg-indigo-500" },
+  ];
+  return (
+    <div className="w-full flex flex-col gap-5">
+      <div className="flex items-center justify-between">
+        <span className="text-xs font-semibold text-foreground/80">Bayesian belief model updating…</span>
+        <span className="font-mono text-sm font-bold text-amber-600">{score}% confidence</span>
+      </div>
+      {bars.map((b) => (
+        <div key={b.label} className="flex flex-col gap-1.5">
+          <div className="flex justify-between text-[11px]">
+            <span className="text-muted-foreground">{b.label}</span>
+            <span className="font-mono font-semibold text-foreground">{Math.round(b.val)}%</span>
+          </div>
+          <div className="h-2.5 w-full rounded-full bg-border overflow-hidden">
+            <div
+              className={`h-full rounded-full ${b.color} transition-all duration-75`}
+              style={{ width: `${b.val}%` }}
+            />
+          </div>
+        </div>
+      ))}
+      <div className="flex items-center gap-2 mt-1">
+        <Brain className="w-3.5 h-3.5 text-amber-500" />
+        <span className="text-[11px] text-amber-700 font-semibold">
+          {score < 50 ? "Assessing threat…" : score < 75 ? "Elevated risk — prioritising" : "HIGH CONFIDENCE — escalating"}
+        </span>
+      </div>
+    </div>
+  );
+}
+
+function RespondPanel() {
+  const [step, setStep] = useState(0);
+  useEffect(() => {
+    const t = setInterval(() => setStep((s) => (s >= 3 ? 0 : s + 1)), 1400);
+    return () => clearInterval(t);
+  }, []);
+  const actions = [
+    { action: "Isolate NODE-004 from network segment", ms: "312ms" },
+    { action: "Block outbound traffic on port 445", ms: "489ms" },
+    { action: "Snapshot memory state for forensics", ms: "1.2s" },
+    { action: "Incident report dispatched to commander", ms: "1.8s" },
+  ];
+  return (
+    <div className="w-full flex flex-col gap-3">
+      <div className="text-[10px] font-semibold uppercase tracking-widest text-muted-foreground mb-1">
+        AGENT SANDBOX · EXECUTING COUNTERMEASURES
+      </div>
+      <div className="border border-border/50 rounded-xl p-4 flex flex-col gap-2.5 bg-white/60">
+        {actions.map((a, i) => (
+          <div key={i} className="flex items-center gap-3">
+            {i < step ? (
+              <CheckCircle2 className="w-4 h-4 text-contained shrink-0" />
+            ) : i === step ? (
+              <Activity className="w-4 h-4 text-indigo-500 shrink-0 animate-pulse" />
+            ) : (
+              <div className="w-4 h-4 rounded-full border-2 border-border shrink-0" />
+            )}
+            <span
+              className={`flex-1 text-xs ${
+                i < step
+                  ? "text-muted-foreground line-through"
+                  : i === step
+                  ? "text-foreground font-medium"
+                  : "text-muted-foreground/50"
+              }`}
+            >
+              {a.action}
+            </span>
+            {i < step && (
+              <span className="text-[10px] font-mono text-muted-foreground">{a.ms}</span>
+            )}
           </div>
         ))}
       </div>
-    ),
-  },
-];
+    </div>
+  );
+}
+
+function RecoverPanel() {
+  const [ticked, setTicked] = useState(0);
+  useEffect(() => {
+    const t = setInterval(() => setTicked((s) => (s >= 5 ? 0 : s + 1)), 900);
+    return () => clearInterval(t);
+  }, []);
+  const items = [
+    { label: "Detection time logged", value: "00:00:04" },
+    { label: "Containment confirmed", value: "00:00:09" },
+    { label: "Blast radius assessed", value: "1 node" },
+    { label: "14 agent actions audited", value: "✓" },
+    { label: "Compliance report generated", value: "0 flags" },
+  ];
+  return (
+    <div className="w-full flex flex-col gap-2">
+      <div className="text-[10px] font-semibold uppercase tracking-widest text-muted-foreground mb-2">
+        INCIDENT REPORT · AUTO-GENERATED
+      </div>
+      {items.map((item, i) => (
+        <div
+          key={i}
+          className="flex items-center justify-between py-1.5 border-b border-border/40 last:border-0"
+        >
+          <div className="flex items-center gap-2">
+            {i < ticked ? (
+              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500 shrink-0" />
+            ) : (
+              <div className="w-3.5 h-3.5 rounded-full border border-border shrink-0" />
+            )}
+            <span className={`text-xs ${i < ticked ? "text-foreground" : "text-muted-foreground/40"}`}>
+              {item.label}
+            </span>
+          </div>
+          <span
+            className={`text-xs font-mono font-semibold transition-opacity duration-300 ${
+              i < ticked ? "text-emerald-700 opacity-100" : "opacity-0"
+            }`}
+          >
+            {item.value}
+          </span>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+const TAB_PANELS = [DetectPanel, PredictPanel, RespondPanel, RecoverPanel];
+const TAB_DURATION = 5000; // ms per tab
+
+// ── Auto-playing Workflow Player component ───────────────────────────
+function WorkflowPlayer() {
+  const [activeTab, setActiveTab] = useState(0);
+  const [progress, setProgress] = useState(0);
+  const [panelVisible, setPanelVisible] = useState(true);
+  const progressRef = useRef(0);
+  const startTimeRef = useRef(Date.now());
+  const rafRef = useRef<number | null>(null);
+
+  const goToTab = (idx: number) => {
+    setPanelVisible(false);
+    setTimeout(() => {
+      setActiveTab(idx);
+      setProgress(0);
+      progressRef.current = 0;
+      startTimeRef.current = Date.now();
+      setPanelVisible(true);
+    }, 300);
+  };
+
+  useEffect(() => {
+    startTimeRef.current = Date.now();
+    progressRef.current = 0;
+
+    const tick = () => {
+      const elapsed = Date.now() - startTimeRef.current;
+      const pct = Math.min((elapsed / TAB_DURATION) * 100, 100);
+      progressRef.current = pct;
+      setProgress(pct);
+
+      if (pct >= 100) {
+        setActiveTab((prev) => {
+          const next = (prev + 1) % HERO_TABS.length;
+          setPanelVisible(false);
+          setTimeout(() => {
+            setProgress(0);
+            progressRef.current = 0;
+            startTimeRef.current = Date.now();
+            setPanelVisible(true);
+          }, 300);
+          return next;
+        });
+        return; // let the next useEffect cycle restart
+      }
+      rafRef.current = requestAnimationFrame(tick);
+    };
+
+    rafRef.current = requestAnimationFrame(tick);
+    return () => {
+      if (rafRef.current) cancelAnimationFrame(rafRef.current);
+    };
+  }, [activeTab]);
+
+  const tab = HERO_TABS[activeTab];
+  const PanelContent = TAB_PANELS[activeTab];
+
+  return (
+    <div className="w-full rounded-2xl border border-border shadow-md overflow-hidden">
+      {/* Tab header strip */}
+      <div className="grid grid-cols-4 bg-secondary border-b border-border">
+        {HERO_TABS.map((t, i) => {
+          const Icon = t.icon;
+          const isActive = i === activeTab;
+          return (
+            <button
+              key={t.id}
+              onClick={() => goToTab(i)}
+              className={`relative flex flex-col items-center gap-1 py-3 px-2 text-center transition-colors ${
+                isActive ? "bg-card" : "hover:bg-secondary/80"
+              }`}
+            >
+              <div className="flex items-center gap-1.5">
+                <Icon
+                  className={`w-3.5 h-3.5 transition-colors ${
+                    isActive ? t.tabColor : "text-muted-foreground/50"
+                  }`}
+                />
+                <span
+                  className={`text-[10px] font-bold uppercase tracking-widest transition-colors ${
+                    isActive ? t.tabColor : "text-muted-foreground/50"
+                  }`}
+                >
+                  {t.label}
+                </span>
+              </div>
+              {/* Progress bar */}
+              <div className="w-full h-0.5 bg-border/40 rounded-full overflow-hidden">
+                <div
+                  className={`h-full ${t.barColor} rounded-full transition-none`}
+                  style={{ width: isActive ? `${progress}%` : "0%" }}
+                />
+              </div>
+            </button>
+          );
+        })}
+      </div>
+
+      {/* Content panel — cross-fades */}
+      <div
+        className="p-6 md:p-8 transition-all duration-300"
+        style={{
+          background: tab.panelBg,
+          opacity: panelVisible ? 1 : 0,
+          transform: panelVisible ? "translateY(0)" : "translateY(6px)",
+        }}
+      >
+        <div className="grid md:grid-cols-2 gap-8 items-start">
+          {/* Text */}
+          <div>
+            <h3 className={`font-heading text-xl font-bold mb-2 ${tab.tabColor}`}>
+              {tab.title}
+            </h3>
+            <p className="text-sm text-muted-foreground leading-relaxed">{tab.desc}</p>
+          </div>
+          {/* Animated illustration */}
+          <div className="rounded-xl border border-border/60 bg-white/70 p-5 shadow-sm min-h-[160px] flex flex-col justify-center">
+            <PanelContent />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
 
 const TRUSTED_SECTORS = [
   "Power Grid Authority",
@@ -390,46 +621,9 @@ export default function Landing() {
           </Button>
         </div>
 
-        {/* Tab strip */}
+        {/* Auto-playing workflow player */}
         <div className="mt-16 text-left">
-          {/* Tabs */}
-          <div className="flex gap-1 mb-4 bg-secondary rounded-xl p-1 max-w-fit mx-auto">
-            {HERO_TABS.map((tab, i) => {
-              const Icon = tab.icon;
-              return (
-                <button
-                  key={tab.id}
-                  onClick={() => setActiveTab(i)}
-                  className={`flex items-center gap-1.5 px-4 py-2 rounded-lg text-[11px] font-semibold uppercase tracking-widest transition-all ${
-                    activeTab === i
-                      ? "bg-card border border-border shadow-sm text-foreground"
-                      : "text-muted-foreground hover:text-foreground"
-                  }`}
-                >
-                  <Icon className="w-3.5 h-3.5" />
-                  {tab.label}
-                </button>
-              );
-            })}
-          </div>
-
-          {/* Tab panel */}
-          <div className="rounded-2xl border border-border bg-card p-6 shadow-sm grid md:grid-cols-2 gap-8 items-center">
-            <div>
-              <div
-                className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-semibold uppercase tracking-widest mb-4 ${HERO_TABS[activeTab].bg} ${HERO_TABS[activeTab].color}`}
-              >
-                <span>{HERO_TABS[activeTab].label}</span>
-              </div>
-              <h3 className="font-heading text-xl font-bold text-foreground mb-3">
-                {HERO_TABS[activeTab].title}
-              </h3>
-              <p className="text-sm text-muted-foreground leading-relaxed">
-                {HERO_TABS[activeTab].desc}
-              </p>
-            </div>
-            <div>{HERO_TABS[activeTab].visual}</div>
-          </div>
+          <WorkflowPlayer />
         </div>
       </div>
 
