@@ -199,3 +199,23 @@
 .fade-up {
   animation: fade-up 0.45s ease forwards;
 }
+
+/* Reveal-on-scroll sections */
+.reveal-section {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.55s ease, transform 0.55s ease;
+}
+.reveal-section.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Infinite marquee for trusted-by strip */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+.animate-marquee {
+  animation: marquee 28s linear infinite;
+}

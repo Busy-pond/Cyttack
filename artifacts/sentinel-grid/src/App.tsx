@@ -5,6 +5,7 @@ import NotFound from '@/pages/not-found';
 import { Route, Switch, Router as WouterRouter } from 'wouter';
 import { AuthProvider } from '@/context/AuthContext';
 
+import Landing from '@/pages/Landing';
 import Login from '@/pages/Login';
 import Dashboard from '@/pages/Dashboard';
 import Incidents from '@/pages/Incidents';
@@ -25,7 +26,8 @@ function Router() {
 
   return (
     <Switch>
-      <Route path="/" component={Login} />
+      <Route path="/" component={Landing} />
+      <Route path="/simulation" component={Login} />
       <Route path="/dashboard" component={Dashboard} />
       <Route path="/incidents" component={Incidents} />
       <Route path="/incidents/:id" component={IncidentDetail} />

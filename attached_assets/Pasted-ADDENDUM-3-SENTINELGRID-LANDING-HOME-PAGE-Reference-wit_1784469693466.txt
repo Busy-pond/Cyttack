@@ -1,0 +1,192 @@
+ADDENDUM 3 — SENTINELGRID LANDING / HOME PAGE
+(Reference: withsurface.com homepage structure)
+(Paste this AFTER Addendum 2. This adds a standalone marketing/landing page — separate
+from the actual Mission Control dashboard/demo — that explains what SentinelGrid is,
+the problem it solves, how it solves it, and its impact, before the user ever enters
+the live simulation. Use the same light "Surface" palette, type, and motion rules
+from Addendum 2 for this page.)
+
+============================================================
+0. PURPOSE OF THIS PAGE
+============================================================
+0.1 This is the FIRST screen a visitor/judge sees — a real landing page, not the
+    dashboard. It should read like a product homepage (the way withsurface.com
+    introduces "Surface" before you ever touch the app), then hand off into the
+    live attack simulation via a clear CTA.
+0.2 Route: "/" is this landing page. The Mission Control dashboard / live demo lives
+    at "/simulation" (or opens in the same view after clicking the primary CTA).
+0.3 Keep all functional/demo logic from the main brief untouched — this page is
+    purely new, additive marketing surface area.
+
+============================================================
+1. NAV BAR
+============================================================
+1.1 Left: SentinelGrid logo/wordmark.
+1.2 Center/right nav links: PRODUCT · HOW IT WORKS · IMPACT · ABOUT (all can anchor-
+    scroll to sections on this same page rather than separate routes — fine for a
+    hackathon build).
+1.3 Right-most: a ghost/outline "LOG IN" style button (non-functional placeholder is
+    fine) + a solid primary button "LAUNCH LIVE DEMO →" that routes to /simulation.
+
+============================================================
+2. HERO SECTION
+============================================================
+2.1 Small uppercase eyebrow label above the headline, e.g. "AI INCIDENT RESPONSE
+    FOR CRITICAL INFRASTRUCTURE" — mirrors Surface's "LEAD OPERATIONS CENTER" eyebrow.
+2.2 Big, bold, tight-tracked headline (text-5xl–6xl), benefit-framed, not feature-
+    framed — e.g. "Helping Security Teams Stop Attacks Before They Spread" (pattern-
+    match Surface's "Helping Marketers Drive 30% More Demos in 2 Weeks").
+2.3 One-line subhead below headline explaining the mechanism plainly, e.g.
+    "An autonomous multi-agent system that detects, predicts, and neutralizes
+    attacks on power grids, hospitals, and rail networks — in seconds, not days."
+2.4 Two CTAs side by side: primary solid button "LAUNCH LIVE DEMO →" (routes to
+    /simulation and auto-starts the guided attack scenario), secondary outline/
+    text-link button "HOW IT WORKS" (scrolls down to Section 4).
+2.5 Below the CTAs, a rotating tab strip mirroring Surface's CAPTURE / QUALIFY /
+    ROUTE / RECOVER tabs — here use "DETECT / PREDICT / RESPOND / RECOVER" as tabs,
+    each tab swapping a short looping screen-capture or animated illustration of
+    that stage of the SentinelGrid pipeline inside a rounded device-frame card.
+
+============================================================
+3. "TRUSTED BY" STRIP
+============================================================
+3.1 Small centered label: "Built for the sectors that can't afford downtime."
+3.2 A horizontal auto-scrolling logo row in grayscale/low-opacity, using stylized
+    placeholder wordmarks for sectors/institutions (not real logos/trademarks) —
+    e.g. "Power Grid Authority," "Metro Rail Operations," "National Health Network,"
+    "Public Exam Board," "Water & Utilities Board" — same visual treatment as
+    Surface's infinite customer-logo carousel.
+
+============================================================
+4. PROBLEM SECTION
+============================================================
+4.1 Small eyebrow label: "THE PROBLEM"
+4.2 Section headline (text-4xl, bold): a real, punchy statement of what goes wrong
+    today — e.g. "Security teams see the alert. By the time they act, it's already
+    too late."
+4.3 Three problem cards in a row (mirrors Surface's 3-card problem grid), each with
+    a short looping illustration/clip placeholder, a bold short title, and one
+    plain-language sentence of consequence:
+    — "Alerts Pile Up Faster Than Analysts Can Read Them"
+      "Thousands of log lines a minute. One missed signal is a breach."
+    — "Manual Response Takes Hours, Attacks Take Seconds"
+      "By the time a human confirms an incident, lateral movement is already done."
+    — "No One Has the Full Picture"
+      "Compliance, ops, and security teams see different slices of the same attack."
+4.4 Each card should feel visually identical in structure to Surface's problem
+    cards (clip/illustration on top, bold title, single explanatory line below) —
+    do not add extra bullet lists here, keep it to one line per card.
+
+============================================================
+5. SOLUTION SECTION — NUMBERED STEPS
+============================================================
+5.1 Eyebrow label: "THE SOLUTION"
+5.2 Section headline: outcome-framed and numeric, mirroring Surface's "3 steps that
+    drive 30% more demos in 2 weeks" — e.g. "4 stages that cut incident response
+    from hours to seconds."
+5.3 Reuse the numbered-step rail already specified in Addendum 2 Section 3.3
+    (Detect · Predict · Respond · Recover) but give it full section treatment here:
+    each step gets its own large numeral, short bold title, one-paragraph
+    description, and an illustrative clip/diagram inside a rounded device frame —
+    same layout rhythm as Surface's Capture&Qualify / Route&Book / Recover&Nurture
+    blocks (image left, numbered text right, alternating sides per step is fine).
+5.4 Suggested copy per step:
+    1 — Detect: "SentinelGrid's agents continuously monitor infrastructure telemetry
+        and flag anomalies the moment they deviate from baseline behavior."
+    2 — Predict: "A Bayesian belief model scores the likelihood and blast radius of
+        an attack before it fully unfolds, prioritizing what actually matters."
+    3 — Respond: "Autonomous agents execute contained, auditable countermeasures in
+        isolated sandboxes — no waiting on a human to click 'approve' during the
+        critical first seconds."
+    4 — Recover: "Full audit trail and root-cause summary generated automatically,
+        so compliance and leadership see exactly what happened and why."
+
+============================================================
+6. IMPACT / STATS SECTION
+============================================================
+6.1 Eyebrow label: "THE IMPACT" (mirrors Surface's stat block after their solution
+    section).
+6.2 Icon + huge-number + short-label grid, 4 columns on desktop, same as Addendum 2
+    Section 3.4 styling. Suggested stats (placeholder/demo figures, label them as
+    simulated/estimated if judges may probe):
+    — "90%+ " → "Faster mean-time-to-detect vs. manual triage"
+    — "< 5 sec" → "From anomaly flagged to countermeasure deployed"
+    — "5 categories" → "Of compliance/security violations auto-detected"
+    — "100%" → "Auditable — every agent action logged and traceable"
+6.3 Keep numbers on plain background, no card borders — whitespace separates them,
+    per Addendum 2's rule.
+
+============================================================
+7. "BUILT FOR ENTERPRISE / CRITICAL INFRASTRUCTURE" SECTION
+============================================================
+7.1 Eyebrow label: "ENTERPRISE-READY" (reuse almost verbatim from Surface).
+7.2 3-column feature grid with icon/image, bold title, one-line description —
+    mirror Surface's Privacy & Compliance / Workflow & Agent Observability / CRM &
+    MAP Integrations layout exactly, but recontent for SentinelGrid:
+    — "Compliance-First Design" — "Built around AML/regulatory audit requirements,
+      not bolted on afterward."
+    — "Full Agent Observability" — "Every autonomous action is traced end-to-end via
+      Arize Phoenix — no black-box decisions."
+    — "Cloud-Native Integrations" — "Deploys against real GCP resource telemetry,
+      MongoDB Atlas, and existing SIEM/logging pipelines — no rip and replace."
+
+============================================================
+8. "TESTIMONIAL"-STYLE PROOF SECTION (OPTIONAL, CLEARLY LABELED AS ILLUSTRATIVE)
+============================================================
+8.1 Eyebrow/heading: "Loved by security teams" (or, if judges may push back on
+    fabricated quotes reading as real endorsements, relabel as "What a SOC lead
+    would say" / "Illustrative feedback" to keep it honest).
+8.2 2–3 short quote cards, same visual treatment as Surface's testimonial cards
+    (quote, name, title, sector — use clearly fictional personas, e.g. "A. Sharma,
+    Security Analyst, Simulated Power Grid Authority"), e.g.:
+    — "Response time went from hours to seconds during our tabletop exercise."
+    — "The audit trail alone would save our compliance team a full day per incident."
+8.3 Keep this section skippable/removable — it's a polish layer, not core
+    functionality, and should never claim to be a real customer.
+
+============================================================
+9. FINAL CTA / CLOSE
+============================================================
+9.1 Large centered closing statement mirroring Surface's close, e.g. "See SentinelGrid
+    stop a live attack in real time." with a single primary button "LAUNCH LIVE
+    DEMO →" routing into /simulation and auto-starting the guided story sequence.
+9.2 Keep this section short — one headline, one CTA, generous whitespace above/below.
+
+============================================================
+10. FOOTER
+============================================================
+10.1 Left: SentinelGrid wordmark + 1–2 line description of the project, mirroring
+     Surface's footer blurb, e.g. "SentinelGrid is an autonomous multi-agent system
+     for detecting and responding to threats against critical infrastructure."
+10.2 Column links (can be anchor links or placeholders): PRODUCT (Detect / Predict /
+     Respond / Recover), LEARN MORE (How It Works / Impact / About), SOCIALS
+     (GitHub repo link to the real project repo).
+10.3 Bottom line: simple copyright/credit line for the hackathon team.
+
+============================================================
+11. MOTION & LAYOUT NOTES SPECIFIC TO THIS PAGE
+============================================================
+11.1 Apply the same fade-up-on-scroll, gentle-hover-scale, and cross-fade rules
+     from Addendum 2 Section 5 to every section on this landing page.
+11.2 Each major section (Problem, Solution, Impact, Enterprise, Testimonials, Close)
+     should be its own full-width block with generous vertical padding (py-24 to
+     py-32) and a max-width centered container (max-w-6xl/7xl) — matches Surface's
+     rhythm of one idea per full-viewport-height-ish block as you scroll.
+11.3 This landing page should be the entry point in routing/state — clicking
+     "LAUNCH LIVE DEMO" anywhere on the page transitions (cross-fade, not hard
+     reload) into the existing Mission Control / guided-demo experience already
+     specified in the main brief.
+
+============================================================
+12. REPLIT EXECUTION NOTES
+============================================================
+12.1 Build this as a new top-level route/page component, reusing the Section 1–2
+     palette/type tokens from Addendum 2 — do not introduce new colors/fonts here.
+12.2 Reuse existing components where possible (numbered-step rail, stat grid,
+     badges/pills) rather than building parallel one-off versions for this page.
+12.3 All sector/company names and testimonial personas used here are placeholders
+     for demo purposes only and must be clearly fictional — do not imply real
+     partnerships, customers, or endorsements.
+12.4 QA pass: scroll through this page top-to-bottom and confirm it reads as a
+     coherent Problem → Solution → Proof → Trust → CTA narrative, same rhythm as
+     withsurface.com's homepage, before wiring the CTA into the live simulation.
