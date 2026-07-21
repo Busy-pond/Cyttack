@@ -25,7 +25,17 @@ app.use(
     },
   }),
 );
-app.use(cors());
+
+// Allow the frontend origin to call the API.
+// FRONTEND_ORIGIN can be set to the deployed frontend URL (e.g. https://cyttack.vercel.app).
+// When unset, `origin: true` reflects the request origin, permitting all — fine for dev
+// and for Replit where both services share the same domain via the shared proxy.
+app.use(
+  cors({
+    origin: process.env.FRONTEND_ORIGIN ?? true,
+    credentials: true,
+  }),
+);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 

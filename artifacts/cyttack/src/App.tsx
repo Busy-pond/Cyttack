@@ -21,7 +21,7 @@ const queryClient = new QueryClient();
 
 function Router() {
   useEffect(() => {
-    document.title = "SentinelGrid | Cyber Resilience Platform";
+    document.title = "Cyttack | Cyber Resilience Platform";
   }, []);
 
   return (

@@ -86,7 +86,7 @@ export default function Dashboard() {
       <div className="flex flex-col md:flex-row justify-between items-start md:items-start mb-10 gap-4">
         <div>
           <p className="text-[10px] font-medium uppercase tracking-widest text-muted-foreground mb-2">LIVE SIMULATION</p>
-          <h1 className="text-3xl font-heading font-bold tracking-tight text-foreground">Watch SentinelGrid Stop an Attack</h1>
+          <h1 className="text-3xl font-heading font-bold tracking-tight text-foreground">Watch Cyttack Stop an Attack</h1>
           <p className="text-muted-foreground mt-1.5 text-sm">
             System status: <span className="text-low font-medium">Operational</span>
           </p>

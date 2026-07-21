@@ -14,16 +14,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [role, setRoleState] = useState<Role>(null);
 
   useEffect(() => {
-    const saved = localStorage.getItem("sentinel_role") as Role;
+    const saved = localStorage.getItem("cyttack_role") as Role;
     if (saved) setRoleState(saved);
   }, []);
 
   const setRole = (newRole: Role) => {
     setRoleState(newRole);
     if (newRole) {
-      localStorage.setItem("sentinel_role", newRole);
+      localStorage.setItem("cyttack_role", newRole);
     } else {
-      localStorage.removeItem("sentinel_role");
+      localStorage.removeItem("cyttack_role");
     }
   };
 

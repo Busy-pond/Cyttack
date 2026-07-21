@@ -21,7 +21,7 @@ const links = [
   { href: "/attack-map", label: "Attack Map", icon: Network },
   { href: "/vulnerabilities", label: "Vulnerabilities", icon: ShieldHalf },
   { href: "/audit-log", label: "Audit Log", icon: ListOrdered },
-  { href: "/ask-sentinel", label: "Ask SentinelGrid", icon: Terminal },
+  { href: "/ask-sentinel", label: "Ask Cyttack", icon: Terminal },
 ];
 
 export function Sidebar() {
@@ -37,7 +37,7 @@ export function Sidebar() {
           <div className="w-7 h-7 rounded-lg bg-primary flex items-center justify-center text-primary-foreground">
             <ShieldAlert size={15} />
           </div>
-          <span className="font-heading font-bold text-base tracking-tight">SentinelGrid</span>
+          <span className="font-heading font-bold text-base tracking-tight">Cyttack</span>
         </div>
         <Button variant="ghost" size="icon" onClick={() => setIsOpen(!isOpen)} className="text-muted-foreground">
           {isOpen ? <X size={20} /> : <Menu size={20} />}
@@ -54,7 +54,7 @@ export function Sidebar() {
           <div className="w-7 h-7 rounded-lg bg-primary flex items-center justify-center text-primary-foreground shrink-0">
             <ShieldAlert size={15} />
           </div>
-          <span className="font-heading font-bold text-base tracking-tight">SentinelGrid</span>
+          <span className="font-heading font-bold text-base tracking-tight">Cyttack</span>
         </div>
 
         {/* Nav */}

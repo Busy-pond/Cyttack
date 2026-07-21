@@ -1,6 +1,6 @@
 kind = "web"
 previewPath = "/"
-title = "SentinelGrid"
+title = "Cyttack"
 version = "1.0.0"
 id = "artifacts/sentinel-grid"
 router = "path"
@@ -11,12 +11,12 @@ paths = [ "/" ]
 localPort = 20581
 
 [services.development]
-run = "pnpm --filter @workspace/sentinel-grid run dev"
+run = "pnpm --filter @workspace/cyttack run dev"
 
 [services.production]
-build = [ "pnpm", "--filter", "@workspace/sentinel-grid", "run", "build" ]
+build = [ "pnpm", "--filter", "@workspace/cyttack", "run", "build" ]
 serve = "static"
-publicDir = "artifacts/sentinel-grid/dist/public"
+publicDir = "artifacts/cyttack/dist/public"
 
 [[services.production.rewrites]]
 from = "/*"

@@ -19,7 +19,7 @@ export default function AskSentinel() {
     {
       id: 'welcome',
       role: 'assistant',
-      content: `SentinelGrid AI ready. Authenticated as ${role}. Ask me to analyze logs, explain detected techniques, or recommend containment steps.`,
+      content: `Cyttack AI ready. Authenticated as ${role}. Ask me to analyze logs, explain detected techniques, or recommend containment steps.`,
       timestamp: new Date()
     }
   ]);
@@ -77,7 +77,7 @@ export default function AskSentinel() {
       <div className="flex flex-col h-[calc(100vh-8rem)]">
         <div className="mb-6">
           <p className="text-[10px] font-medium uppercase tracking-widest text-muted-foreground mb-2">AI PREDICTION</p>
-          <h1 className="text-3xl font-heading font-bold tracking-tight text-foreground">Ask SentinelGrid</h1>
+          <h1 className="text-3xl font-heading font-bold tracking-tight text-foreground">Ask Cyttack</h1>
           <p className="text-muted-foreground text-sm mt-1">AI-assisted threat intelligence, log analysis, and playbook guidance.</p>
         </div>
 
@@ -86,7 +86,7 @@ export default function AskSentinel() {
           <div className="px-5 py-3 bg-secondary/50 border-b border-border flex items-center justify-between">
             <div className="flex items-center gap-2">
               <span className="w-2 h-2 rounded-full bg-low" />
-              <span className="text-xs font-medium text-foreground">SentinelGrid AI</span>
+              <span className="text-xs font-medium text-foreground">Cyttack AI</span>
               <span className="text-xs text-muted-foreground">· LLM-SOC-CORE</span>
             </div>
             <span className="text-[10px] text-muted-foreground font-mono">AES-256-GCM</span>

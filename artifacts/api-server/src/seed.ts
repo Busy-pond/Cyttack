@@ -1,7 +1,7 @@
 import { db, entitiesTable, alertsTable, campaignsTable, playbooksTable, vulnerabilitiesTable, auditLogTable } from "@workspace/db";
 
 async function seed() {
-  console.log("Seeding SentinelGrid mock data...");
+  console.log("Seeding Cyttack mock data...");
 
   // Clear existing data
   await db.delete(auditLogTable);
@@ -390,7 +390,7 @@ async function seed() {
   await db.insert(auditLogTable).values(auditEntries);
   console.log("✓ Audit log seeded");
 
-  console.log("\nSentinelGrid seed complete. All mock data loaded.");
+  console.log("\nCyttack seed complete. All mock data loaded.");
   process.exit(0);
 }
 

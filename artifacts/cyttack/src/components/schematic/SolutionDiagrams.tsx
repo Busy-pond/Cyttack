@@ -38,7 +38,7 @@ function DrawLine({
 
 // ─────────────────────────────────────────────────────────────────────
 // Step 1 — DETECT — Line-draw routing
-// TELEMETRY tag → SentinelGrid panel → ANOMALY FLAGGED + checkmark
+// TELEMETRY tag → Cyttack panel → ANOMALY FLAGGED + checkmark
 // ─────────────────────────────────────────────────────────────────────
 export function DetectDiagram() {
   const [key, setKey] = useState(0);
@@ -64,7 +64,7 @@ export function DetectDiagram() {
         </div>
 
         {/* Core panel */}
-        <BoltedPanel label="SENTINELGRID" className="w-[90px] shrink-0">
+        <BoltedPanel label="CYTTACK" className="w-[90px] shrink-0">
           <div className="flex justify-center py-1">
             <SpinnerRing size={28} color="#7FC8F8" />
           </div>

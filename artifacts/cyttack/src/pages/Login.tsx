@@ -43,7 +43,7 @@ export default function Login() {
           <div className="w-7 h-7 rounded-lg bg-primary flex items-center justify-center">
             <ShieldAlert size={15} className="text-primary-foreground" />
           </div>
-          <span className="font-heading font-bold text-base tracking-tight">SentinelGrid</span>
+          <span className="font-heading font-bold text-base tracking-tight">Cyttack</span>
         </div>
         <span className="text-xs text-muted-foreground uppercase tracking-widest font-medium">National Cyber Resilience Platform</span>
       </header>
@@ -117,7 +117,7 @@ export default function Login() {
           {/* Testimonial */}
           <div className="mt-6 p-4 bg-card border border-border rounded-xl shadow-sm">
             <p className="text-sm text-foreground leading-relaxed italic">
-              "Response time went from days to seconds. SentinelGrid changed how our SOC operates."
+              "Response time went from days to seconds. Cyttack changed how our SOC operates."
             </p>
             <div className="mt-2 flex items-center gap-2">
               <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center">

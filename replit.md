@@ -1,10 +1,10 @@
-# SentinelGrid
+# Cyttack
 
 An AI-powered Cyber Resilience command center for government/critical infrastructure SOC teams. Detects behavioral anomalies across IT/OT networks, maps them to MITRE ATT&CK attack chains, and orchestrates containment playbooks — compressing detection-to-response time from weeks to minutes.
 
 ## Run & Operate
 
-- `pnpm --filter @workspace/sentinel-grid run dev` — run the React/Vite frontend
+- `pnpm --filter @workspace/cyttack run dev` — run the React/Vite frontend
 - `pnpm --filter @workspace/api-server run dev` — run the Express API server (port from `PORT` env var)
 - `pnpm run typecheck` — full typecheck across all packages
 - `pnpm run build` — typecheck + build all packages
@@ -16,6 +16,8 @@ An AI-powered Cyber Resilience command center for government/critical infrastruc
 - `DATABASE_URL` — Postgres connection string (required for API server)
 - `SESSION_SECRET` — session signing secret (already set in Replit Secrets)
 - `PORT` — assigned automatically per artifact by Replit
+- `VITE_API_URL` — (optional) full URL of the API server for external deployments (e.g. `https://api.cyttack.com`). Leave unset in Replit — same-domain /api/* routing is handled automatically by the shared proxy.
+- `FRONTEND_ORIGIN` — (optional) URL of the deployed frontend for explicit CORS allowlisting (e.g. `https://cyttack.vercel.app`). Leave unset in Replit.
 
 ## Stack
 
@@ -29,7 +31,7 @@ An AI-powered Cyber Resilience command center for government/critical infrastruc
 
 ## Where things live
 
-- `artifacts/sentinel-grid/` — React/Vite frontend (dashboard, incidents, attack maps, etc.)
+- `artifacts/cyttack/` — React/Vite frontend (dashboard, incidents, attack maps, etc.)
 - `artifacts/api-server/` — Express REST API server
 - `lib/db/` — Drizzle ORM schema and DB connection (`src/schema/index.ts` is source of truth)
 - `lib/api-spec/` — OpenAPI spec (source of truth for API contract)
@@ -41,10 +43,11 @@ An AI-powered Cyber Resilience command center for government/critical infrastruc
 - API contract is defined in `lib/api-spec` as an OpenAPI spec; client hooks and Zod validators are generated from it via Orval — never edit generated files directly.
 - DB schema lives in `lib/db/src/schema/` and is shared across the monorepo via the `@workspace/db` package.
 - Frontend communicates with the API server via generated hooks in `@workspace/api-client-react`.
+- Frontend/backend wiring: relative `/api/*` calls work out-of-the-box in Replit via the shared proxy. For external deployments set `VITE_API_URL` to the API server URL and `FRONTEND_ORIGIN` to the frontend URL.
 
 ## Product
 
-SentinelGrid is a SOC command center targeting Indian government agencies and critical national infrastructure. Key features: live security operations dashboard, behavioral anomaly detection (simulated), MITRE ATT&CK mapping, APT campaign attribution, and an autonomous incident response orchestrator with human-in-the-loop escalation.
+Cyttack is a SOC command center targeting Indian government agencies and critical national infrastructure. Key features: live security operations dashboard, behavioral anomaly detection (simulated), MITRE ATT&CK mapping, APT campaign attribution, and an autonomous incident response orchestrator with human-in-the-loop escalation.
 
 ## User preferences
 

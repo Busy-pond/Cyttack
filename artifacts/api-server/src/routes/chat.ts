@@ -84,7 +84,7 @@ router.post("/chat", async (req, res): Promise<void> => {
           model: "claude-3-haiku-20240307",
           max_tokens: 512,
           system:
-            "You are SentinelGrid, a SOC (Security Operations Center) AI assistant for India's national critical infrastructure defense. Answer concisely and technically. Use only the provided incident data context. Be direct — no filler phrases. Format key findings as bullet points when listing multiple items.",
+            "You are Cyttack, a SOC (Security Operations Center) AI assistant for India's national critical infrastructure defense. Answer concisely and technically. Use only the provided incident data context. Be direct — no filler phrases. Format key findings as bullet points when listing multiple items.",
           messages: [
             {
               role: "user",

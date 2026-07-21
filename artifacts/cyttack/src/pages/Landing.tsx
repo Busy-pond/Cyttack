@@ -289,7 +289,7 @@ const PROBLEM_CARDS = [
 const SOLUTION_STEPS = [
   {
     num: "1", title: "Detect", icon: Eye, Diagram: DetectDiagram, dark: false,
-    desc: "SentinelGrid's agents continuously monitor infrastructure telemetry and flag anomalies the moment they deviate from baseline behavior.",
+    desc: "Cyttack's agents continuously monitor infrastructure telemetry and flag anomalies the moment they deviate from baseline behavior.",
   },
   {
     num: "2", title: "Predict", icon: Brain, Diagram: PredictDiagram, dark: false,
@@ -340,7 +340,7 @@ export default function Landing() {
             <div className="w-7 h-7 rounded-md bg-primary flex items-center justify-center">
               <Shield className="w-4 h-4 text-white" />
             </div>
-            <span className={`font-heading font-semibold text-base tracking-tight transition-colors ${scrolled ? "text-foreground" : "text-white"}`}>SentinelGrid</span>
+            <span className={`font-heading font-semibold text-base tracking-tight transition-colors ${scrolled ? "text-foreground" : "text-white"}`}>Cyttack</span>
           </div>
 
           <nav className="hidden md:flex items-center gap-7">
@@ -571,7 +571,7 @@ export default function Landing() {
         <FadeSection className="max-w-3xl mx-auto px-6 text-center">
           <Eyebrow light>Live Simulation</Eyebrow>
           <h2 className="font-heading text-4xl md:text-5xl font-bold text-white mb-8 leading-tight">
-            See SentinelGrid stop a live attack in real time.
+            See Cyttack stop a live attack in real time.
           </h2>
           <Button size="lg" onClick={launchDemo}
             className="bg-white text-primary hover:bg-white/90 text-sm font-semibold uppercase tracking-wider gap-2 px-10">
@@ -588,7 +588,7 @@ export default function Landing() {
               <div className="w-6 h-6 rounded-md bg-primary flex items-center justify-center">
                 <Shield className="w-3.5 h-3.5 text-white" />
               </div>
-              <span className="font-heading font-semibold text-sm">SentinelGrid</span>
+              <span className="font-heading font-semibold text-sm">Cyttack</span>
             </div>
             <p className="text-sm text-muted-foreground leading-relaxed max-w-xs">
               An autonomous multi-agent system for detecting and responding to threats against critical infrastructure. Built for CERT-In and India's national cyber resilience.
@@ -622,7 +622,7 @@ export default function Landing() {
           </div>
         </div>
         <div className="max-w-6xl mx-auto px-6 mt-12 pt-6 border-t border-border flex flex-wrap justify-between gap-3">
-          <p className="text-xs text-muted-foreground">© 2025 SentinelGrid · Built for national hackathon demo purposes only.</p>
+          <p className="text-xs text-muted-foreground">© 2025 Cyttack · Built for national hackathon demo purposes only.</p>
           <p className="text-xs text-muted-foreground">All sector names, personas, and statistics are fictional / simulated.</p>
         </div>
       </footer>
