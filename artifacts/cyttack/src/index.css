@@ -239,3 +239,86 @@
 .animate-marquee {
   animation: marquee 28s linear infinite;
 }
+
+/* ── Login page dark SOC theme utilities ─────────────────────── */
+
+.login-bg-grid {
+  background-color: #0a0e14;
+  background-image:
+    radial-gradient(circle at 50% 0%, rgba(0, 229, 160, 0.06) 0%, transparent 45%),
+    radial-gradient(circle at 80% 80%, rgba(34, 211, 238, 0.04) 0%, transparent 35%),
+    linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+  background-size: 100% 100%, 100% 100%, 44px 44px, 44px 44px;
+}
+
+@keyframes login-scan {
+  0% { transform: translateX(-120%); }
+  100% { transform: translateX(220%); }
+}
+
+@keyframes login-pulse-glow {
+  0%, 100% { box-shadow: 0 0 18px rgba(0, 229, 160, 0.12), 0 0 36px rgba(0, 229, 160, 0.04); }
+  50% { box-shadow: 0 0 26px rgba(0, 229, 160, 0.2), 0 0 52px rgba(0, 229, 160, 0.08); }
+}
+
+.login-card {
+  @apply bg-[#111621] border border-[#1e293b] rounded-xl;
+}
+
+.login-card-interactive {
+  @apply transition-all duration-200;
+}
+
+.login-card-interactive:hover {
+  border-color: rgba(0, 229, 160, 0.35);
+  box-shadow: 0 0 18px rgba(0, 229, 160, 0.12);
+}
+
+.login-card-interactive.selected {
+  border-color: rgba(0, 229, 160, 0.55);
+  box-shadow: 0 0 22px rgba(0, 229, 160, 0.18), inset 0 0 24px rgba(0, 229, 160, 0.04);
+  animation: login-pulse-glow 3s ease-in-out infinite;
+}
+
+.login-scan-line::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  overflow: hidden;
+  pointer-events: none;
+  background: linear-gradient(90deg, transparent 0%, rgba(0, 229, 160, 0.14) 50%, transparent 100%);
+  width: 40%;
+  animation: login-scan 2.8s linear infinite;
+}
+
+.login-btn-glow {
+  box-shadow: 0 0 18px rgba(0, 229, 160, 0.25), 0 0 40px rgba(0, 229, 160, 0.1);
+}
+
+.login-btn-glow:hover:not(:disabled) {
+  box-shadow: 0 0 26px rgba(0, 229, 160, 0.35), 0 0 56px rgba(0, 229, 160, 0.15);
+}
+
+.login-btn-glow:disabled {
+  box-shadow: none;
+}
+
+.login-shield-glow {
+  filter: drop-shadow(0 0 5px rgba(0, 229, 160, 0.6)) drop-shadow(0 0 10px rgba(0, 229, 160, 0.25));
+}
+
+.login-trusted-item {
+  @apply transition-colors duration-200;
+}
+
+.login-trusted-item:hover {
+  color: rgba(226, 232, 240, 0.85);
+}
+
+/* Visible focus rings for the login page */
+.login-focus:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px #0a0e14, 0 0 0 4px rgba(0, 229, 160, 0.7);
+}
