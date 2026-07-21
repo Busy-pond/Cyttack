@@ -11,11 +11,18 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [role, setRoleState] = useState<Role>(null);
+  const [role, setRoleState] = useState<Role>(() => {
+    const saved = localStorage.getItem("cyttack_role") as Role;
+    return saved || "SOC Analyst";
+  });
 
   useEffect(() => {
     const saved = localStorage.getItem("cyttack_role") as Role;
-    if (saved) setRoleState(saved);
+    if (saved) {
+      setRoleState(saved);
+    } else {
+      localStorage.setItem("cyttack_role", "SOC Analyst");
+    }
   }, []);
 
   const setRole = (newRole: Role) => {
