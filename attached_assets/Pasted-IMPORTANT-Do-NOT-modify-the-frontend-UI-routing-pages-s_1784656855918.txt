@@ -1,0 +1,101 @@
+IMPORTANT: Do NOT modify the frontend, UI, routing, pages, styling, authentication flow, or existing API contracts. Do NOT restructure the project. The frontend must continue to work without any changes.
+
+Your task is ONLY to enhance the backend by turning it into a Cyber Resilience Digital Twin simulation engine while maintaining full backward compatibility.
+
+Requirements:
+
+1. Replace the current instant simulation with a stateful, event-driven simulation engine.
+
+2. Every simulation should generate a virtual organization containing:
+   - Departments
+   - Employees
+   - Firewalls
+   - Active Directory
+   - Mail Server
+   - Database Server
+   - File Server
+   - Endpoints
+   - Cloud Resources
+   - Security Controls
+
+3. Simulate attacks through MITRE ATT&CK stages:
+   Recon → Initial Access → Execution → Persistence → Credential Access → Privilege Escalation → Discovery → Lateral Movement → Collection → Exfiltration → Detection → Containment → Recovery.
+
+4. Instead of immediately returning results, the simulation should execute sequentially and generate live events. Each event must include:
+   - Timestamp
+   - Current MITRE Stage
+   - Asset
+   - Severity
+   - Event Description
+   - Risk Score
+   - Detection Confidence
+
+5. Maintain simulation state so the frontend can continuously request:
+   - Current stage
+   - Attack progress percentage
+   - Active alerts
+   - Compromised assets
+   - Timeline
+   - Current risk score
+   - Detection confidence
+   - SOAR status
+
+6. Add an AI Prediction Engine that predicts:
+   - Next attack stage
+   - Probability
+   - Confidence
+   - Suggested defensive action
+
+7. Add a SOAR Automation Engine that generates response actions such as:
+   - Block malicious IP
+   - Isolate endpoint
+   - Disable compromised account
+   - Block malicious process
+   - Update firewall rule
+   - Begin recovery
+
+8. Add an Impact Analysis Engine that calculates:
+   - Affected departments
+   - Critical assets affected
+   - Estimated business impact
+   - Estimated financial loss
+   - Recovery estimate
+
+9. Add a Security Investment Simulator API that accepts changes in:
+   - Firewall
+   - MFA
+   - EDR
+   - Patch Management
+   - Network Segmentation
+   - Employee Awareness
+
+   and recalculates:
+   - Attack success probability
+   - Risk score
+   - MTTD
+   - MTTR
+   - Overall resilience score
+
+10. At the end of every simulation automatically generate an Executive Report containing:
+   - Complete attack timeline
+   - MITRE ATT&CK mapping
+   - Compromised assets
+   - Alerts generated
+   - SOAR actions executed
+   - Impact analysis
+   - Risk summary
+   - Recommended security improvements
+
+11. Organize backend logic into reusable services:
+   - Simulation Engine
+   - Attack Engine
+   - MITRE Engine
+   - Event Engine
+   - Prediction Engine
+   - SOAR Engine
+   - Impact Analysis Engine
+   - Report Generator
+
+12. Reuse existing models, database, APIs, and business logic wherever possible. Add new endpoints only if required. Do not remove or rename existing endpoints.
+
+13. Ensure the simulation is deterministic, event-driven, and realistic rather than randomly generating alerts. The backend should function as the core engine of a Cyber Resilience Digital Twin while remaining fully compatible with the existing frontend.

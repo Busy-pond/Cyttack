@@ -57,6 +57,8 @@ _Populate as you build — explicit user instructions worth remembering across s
 
 - Always run `pnpm --filter @workspace/db run push` after schema changes in dev.
 - API client hooks and Zod validators are generated — run `pnpm --filter @workspace/api-spec run codegen` after OpenAPI spec changes.
+- `seed.ts` must NOT self-execute at module level — use `src/seed-runner.ts` as the direct-run entry point to avoid `process.exit()` killing the server on startup (see `.agents/memory/seed-module-fix.md`).
+- Drizzle returns `Date` objects for timestamp columns. Serialize to ISO strings before passing to `ZodSchema.parse()` — see `serializeAlert()` in `routes/simulation.ts`.
 
 ## Pointers
 

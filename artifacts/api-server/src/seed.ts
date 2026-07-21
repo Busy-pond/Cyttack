@@ -401,10 +401,6 @@ export async function seed() {
   console.log("✓ Audit log seeded");
 
   console.log("\nCyttack seed complete. All mock data loaded.");
-  process.exit(0);
 }
 
-seed().catch((err) => {
-  console.error("Seed failed:", err);
-  process.exit(1);
-});
+// To run seeding directly, use: pnpm seed  (which calls src/seed-runner.ts)
