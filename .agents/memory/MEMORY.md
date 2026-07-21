@@ -1,0 +1,2 @@
+- [Seed module auto-run fix](seed-module-fix.md) — seed.ts must never have module-level self-execution; use a separate seed-runner.ts entry point instead.
+- [Drizzle Date serialization for Zod](drizzle-zod-dates.md) — Drizzle returns Date objects; Zod z.string() rejects them. Serialize timestamps to ISO strings before Zod parse.

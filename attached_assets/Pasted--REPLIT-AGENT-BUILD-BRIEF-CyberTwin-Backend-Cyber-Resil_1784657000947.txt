@@ -1,0 +1,198 @@
+# REPLIT AGENT BUILD BRIEF: CyberTwin Backend — Cyber Resilience Digital Twin Simulation Engine (Backend-Only Upgrade)
+
+## 0. SCOPE LOCK (READ FIRST — NON-NEGOTIABLE CONSTRAINTS)
+
+- Do **NOT** modify, refactor, or touch: frontend code, UI components, pages, routing, styling, authentication flow, or existing API request/response contracts.
+- Do **NOT** rename or remove any existing endpoint, route, or field in existing API responses. Existing endpoints must return at least the same shape they do today — you may only **add** new optional fields or new endpoints alongside them.
+- Do **NOT** restructure the project's folder layout, build config, or package entrypoints.
+- The existing frontend must continue to run and function identically with zero code changes on its side.
+- All work happens in the **backend/server layer only**: services, engines, database models, and API route handlers.
+- If the current simulation endpoint currently returns an instant synchronous result, that endpoint must **still work and still return a valid response** (for backward compatibility) — but it should now be backed by the new stateful engine under the hood (e.g., kick off the stateful simulation and return the initial state/handle in the same response shape the frontend already expects, while new endpoints expose the live progression).
+
+---
+
+## 1. OVERVIEW
+
+**Goal:** Convert the existing "instant simulation" backend into a persistent, event-driven **Cyber Resilience Digital Twin simulation engine** that models a virtual organization, runs attacks stage-by-stage through the MITRE ATT&CK framework, streams/exposes live state, predicts next moves, automates SOAR responses, quantifies business impact, supports a security-investment what-if API, and produces an executive report — all while existing endpoints keep working exactly as before.
+
+**Core problem it solves:** Today's simulation returns a result instantly with no realism or granularity. The backend needs to behave like a real, running incident — with time, stages, evolving risk, and reusable services — without breaking anything the frontend already depends on.
+
+---
+
+## 2. FULL BACKEND FEATURE LIST
+
+### Core (must-have, in build order)
+1. Stateful simulation session object (persisted in DB, keyed by simulation ID) replacing instant one-shot generation
+2. Virtual organization generator producing: Departments, Employees, Firewalls, Active Directory, Mail Server, Database Server, File Server, Endpoints, Cloud Resources, Security Controls
+3. MITRE ATT&CK stage engine covering all 13 stages: Recon → Initial Access → Execution → Persistence → Credential Access → Privilege Escalation → Discovery → Lateral Movement → Collection → Exfiltration → Detection → Containment → Recovery
+4. Event-driven execution — simulation advances sequentially (time-based ticks, not instant), emitting structured events with: timestamp, MITRE stage, asset, severity, description, risk score, detection confidence
+5. Simulation state store queryable at any time for: current stage, progress %, active alerts, compromised assets, timeline, risk score, detection confidence, SOAR status
+6. AI Prediction Engine: predicts next stage, probability, confidence, suggested defensive action
+7. SOAR Automation Engine: generates response actions (block IP, isolate endpoint, disable account, block process, update firewall rule, begin recovery)
+8. Impact Analysis Engine: affected departments, critical assets affected, business impact, financial loss estimate, recovery time estimate
+9. Security Investment Simulator API: accepts Firewall/MFA/EDR/Patch Management/Network Segmentation/Employee Awareness changes, recalculates attack success probability, risk score, MTTD, MTTR, resilience score
+10. Executive Report Generator: auto-produced at simulation end — full timeline, MITRE mapping, compromised assets, alerts, SOAR actions, impact analysis, risk summary, recommended improvements
+11. Deterministic simulation logic — same org + same inputs = same outcome (no naive `Math.random()` alert spam); randomness, if used, must be seeded and bounded so behavior is explainable and repeatable
+
+### Nice-to-have (only after core is stable and stable endpoints are verified working)
+12. Simulation pause/resume/reset controls (new endpoints only, additive)
+13. Multiple concurrent simulation sessions per user
+14. Historical simulation log/list endpoint
+
+---
+
+## 3. TECH STACK (BACKEND ONLY)
+
+- **Reuse whatever backend framework is already in the project** (Node/Express, NestJS, Flask, Django, FastAPI, etc.) — do not introduce a new framework or rewrite existing server bootstrap code.
+- **Reuse the existing database** (whatever ORM/DB is already configured) — extend schema with new tables/collections only.
+- **Reuse existing auth middleware** on all new endpoints exactly as it's applied to current endpoints — no auth logic changes.
+- **State/progression mechanism:** If the existing stack already has WebSocket/SSE infrastructure, reuse it for live event streaming. If not, do **not** introduce a new real-time transport layer — instead implement a **pollable state endpoint** (`GET` current simulation state) that the existing frontend polling (if any) or future polling can hit; advance the simulation via a server-side scheduler (`setInterval`/cron-like tick or lazy "advance on read" pattern) so no new infra dependency is required.
+- **No new external APIs required.** If the existing project already integrates an LLM (e.g., for chat), reuse that same integration/client for: prediction reasoning text, SOAR action rationale, and the executive report narrative. Do not add a new provider or API key.
+- **Language/style:** Match the existing codebase's language, linting, and file conventions exactly (e.g., if it's TypeScript with a `services/` folder pattern, follow that pattern precisely).
+
+---
+
+## 4. BACKEND SERVICE ARCHITECTURE
+
+Organize all new logic into clearly separated, reusable service modules (folder/module names should match existing project conventions, e.g. `services/`):
+
+1. **SimulationEngine** — owns the simulation session lifecycle: create, tick/advance, get state, complete. Orchestrates all other engines.
+2. **AttackEngine** — decides what happens at each stage given the virtual org and current security controls; determines success/failure of each stage attempt.
+3. **MITREEngine** — source of truth for the 13-stage sequence, stage metadata, technique IDs, and stage transition rules.
+4. **EventEngine** — generates and persists structured `AttackEvent` records (timestamp, stage, asset, severity, description, risk score, detection confidence) as the simulation progresses.
+5. **PredictionEngine** — given current state, computes next likely stage, probability, confidence, and suggested defensive action.
+6. **SOAREngine** — given a detected compromise, generates ordered response actions (block IP, isolate endpoint, disable account, block process, update firewall rule, begin recovery) and their execution status/timestamps.
+7. **ImpactAnalysisEngine** — computes affected departments, critical assets, business impact narrative, financial loss estimate, and recovery time estimate based on which assets were compromised and org data.
+8. **InvestmentSimulatorService** — takes a control-toggle payload (Firewall/MFA/EDR/Patch Management/Network Segmentation/Employee Awareness) and recalculates attack success probability, risk score, MTTD, MTTR, and resilience score, either against a fresh hypothetical run or by re-deriving from the existing simulation's baseline data.
+9. **ReportGenerator** — assembles the full executive report from all of the above at simulation completion (and optionally on-demand mid-simulation as a "current status report").
+
+Each service should be a separate, independently testable module with a clear single responsibility, callable by the route handlers and by each other (e.g., `SimulationEngine` calls `AttackEngine`, `EventEngine`, `PredictionEngine`, `SOAREngine` internally during a tick).
+
+---
+
+## 5. DATA MODELS (EXTEND EXISTING SCHEMA — DO NOT ALTER EXISTING TABLES/FIELDS)
+
+```
+VirtualOrganization {
+  id, simulationId,
+  departments: [{ id, name, employeeCount, criticality }],
+  employees: [{ id, name, departmentId, role, isCompromised }],
+  firewalls: [{ id, label, status, rulesVersion }],
+  activeDirectory: { id, status, compromisedAccounts[] },
+  mailServer: { id, status },
+  databaseServer: { id, status, sensitivityLevel },
+  fileServer: { id, status },
+  endpoints: [{ id, ownerEmployeeId, status }],
+  cloudResources: [{ id, type, status }],
+  securityControls: { firewall, mfa, edr, patchManagement, networkSegmentation, employeeAwareness } // booleans/levels
+}
+
+SimulationSession {
+  id, userId, orgId, status (running|completed|paused),
+  currentStageIndex, progressPercent, riskScore, detectionConfidence,
+  startedAt, updatedAt, completedAt
+}
+
+AttackEvent {
+  id, simulationId, timestamp, stage, mitreTechniqueId,
+  assetId, assetType, severity, description,
+  riskScoreAtEvent, detectionConfidenceAtEvent
+}
+
+Prediction {
+  id, simulationId, timestamp, predictedNextStage,
+  probability, confidence, suggestedDefensiveAction
+}
+
+SOARAction {
+  id, simulationId, timestamp, actionType
+    (block_ip|isolate_endpoint|disable_account|block_process|update_firewall_rule|begin_recovery),
+  targetAssetId, status (pending|executed|failed), rationale
+}
+
+ImpactAnalysis {
+  id, simulationId, affectedDepartments[], criticalAssetsAffected[],
+  businessImpactSummary, estimatedFinancialLoss, recoveryEstimateHours
+}
+
+InvestmentScenario {
+  id, simulationId, firewall, mfa, edr, patchManagement,
+  networkSegmentation, employeeAwareness,
+  recalculatedAttackSuccessProbability, recalculatedRiskScore,
+  recalculatedMTTD, recalculatedMTTR, resilienceScore
+}
+
+ExecutiveReport {
+  id, simulationId, generatedAt,
+  timeline[], mitreMapping[], compromisedAssets[],
+  alertsGenerated[], soarActionsExecuted[],
+  impactAnalysisId, riskSummary, recommendedImprovements[]
+}
+```
+
+All new tables reference `simulationId` so they can be joined against whatever the existing simulation record/table already is — extend that existing table with new nullable fields (e.g., `engineVersion`, `sessionId`) rather than replacing it.
+
+---
+
+## 6. API CONTRACT RULES
+
+- **Existing endpoints:** keep exact same path, method, request shape, and response shape. Internally, route the existing "run simulation" endpoint to: (a) create a new `SimulationSession` + `VirtualOrganization` under the hood, (b) run the engine synchronously to completion if the frontend expects a synchronous instant response, using the new deterministic engine instead of the old logic, and (c) return data mapped back into the exact same response schema the frontend already parses. This preserves compatibility while the internals are now the real engine.
+- **New endpoints (additive only, do not conflict with existing routes):**
+  - `GET /api/simulation/:id/state` → current stage, progress %, active alerts, compromised assets, risk score, detection confidence, SOAR status
+  - `GET /api/simulation/:id/timeline` → ordered list of `AttackEvent`s
+  - `GET /api/simulation/:id/prediction` → latest `Prediction`
+  - `GET /api/simulation/:id/soar` → list of `SOARAction`s and statuses
+  - `GET /api/simulation/:id/impact` → `ImpactAnalysis`
+  - `POST /api/simulation/:id/investment` → body: control toggles; returns recalculated `InvestmentScenario`
+  - `GET /api/simulation/:id/report` → full `ExecutiveReport`
+  - `POST /api/simulation/:id/advance` (optional, only if a manual-tick model is chosen over auto-scheduler) → advances simulation by one stage/tick and returns updated state
+- Match the existing project's naming conventions (e.g., if existing routes are `/api/v1/...` or camelCase vs kebab-case), and place new routes in the same router file/pattern the existing simulation routes use.
+
+---
+
+## 7. DETERMINISM & REALISM RULES
+
+- Given the same `VirtualOrganization` and the same `securityControls` configuration, the attack path, stage outcomes, and final risk score must be reproducible (seed any randomness with a value derived from the simulation ID).
+- Stage success/failure and detection timing must be a function of the org's `securityControls` (e.g., MFA enabled reduces Credential Access success probability by a fixed, documented amount; EDR enabled increases detection confidence at Lateral Movement/Execution stages, etc.) — not flat random rolls.
+- Each stage should have a defined base success probability and a defined modifier per relevant security control, documented in code comments in `AttackEngine`.
+- Detection confidence and risk score must evolve monotonically in a believable way (e.g., risk score climbs as more assets are compromised, dips or plateaus after containment actions execute).
+
+---
+
+## 8. STEP-BY-STEP BUILD INSTRUCTIONS FOR REPLIT AGENT
+
+1. **Audit first, change nothing yet.** Scan the existing backend: identify current simulation endpoint(s), their exact request/response shapes, existing DB models/schema, existing auth middleware pattern, and existing service/folder conventions. Do not touch the frontend directory at all during this audit or afterward.
+
+2. **Extend the database schema only.** Add the new tables/collections from Section 5 using the same ORM/migration pattern already used in the project. Add new nullable fields to the existing simulation table if needed for linkage (e.g., `sessionId`). Do not alter or drop any existing column.
+
+3. **Build `MITREEngine`.** Hard-code the 13-stage sequence with associated MITRE technique IDs and stage metadata (base success probability, base risk contribution, base detection-confidence contribution per stage).
+
+4. **Build the `VirtualOrganization` generator.** Implement deterministic generation (seeded by simulation ID) of departments, employees, firewalls, AD, mail server, database server, file server, endpoints, cloud resources, and security controls (default: all controls off unless the request specifies otherwise).
+
+5. **Build `AttackEngine`.** Implement stage-by-stage resolution logic: for each stage, given current org state and security controls, determine success/failure, which asset(s) become compromised, and the resulting risk score / detection confidence delta, using the modifiers documented in Section 7.
+
+6. **Build `EventEngine`.** For every stage resolution from `AttackEngine`, persist an `AttackEvent` row with timestamp, stage, asset, severity, description, risk score, detection confidence.
+
+7. **Build `PredictionEngine`.** After each event, compute and persist a `Prediction` (next stage, probability, confidence, suggested defensive action) based on current org state and stage transition likelihoods from `MITREEngine`.
+
+8. **Build `SOAREngine`.** Trigger once the simulation reaches the "Detection" stage: generate an ordered sequence of `SOARAction`s (block IP → isolate endpoint → disable account → block process → update firewall rule → begin recovery), each with a rationale string and status progression (pending → executed).
+
+9. **Build `ImpactAnalysisEngine`.** Once compromised assets are finalized (post-Containment), compute affected departments (via employee→department mapping), critical assets affected, business impact summary text, estimated financial loss (bounded, deterministic formula based on asset criticality and count compromised), and recovery estimate hours.
+
+10. **Build `InvestmentSimulatorService`.** Implement `POST /api/simulation/:id/investment`: given a set of toggled controls, re-run `AttackEngine`'s probability calculations (without mutating the original completed simulation) to produce a comparative `InvestmentScenario` with recalculated attack success probability, risk score, MTTD, MTTR, and resilience score.
+
+11. **Build `ReportGenerator`.** At simulation completion (or on-demand via `GET /api/simulation/:id/report`), assemble the full `ExecutiveReport` pulling from `AttackEvent`s, `SOARAction`s, `ImpactAnalysis`, and stage/MITRE data. If the project has an existing LLM integration (e.g., powering chat), reuse it to generate the narrative `riskSummary` and `recommendedImprovements` text; otherwise use a deterministic template-based summary as fallback.
+
+12. **Build `SimulationEngine` as the orchestrator.** Wire together org generation → sequential stage ticking (via scheduler or lazy advance-on-read) → calls to `AttackEngine`, `EventEngine`, `PredictionEngine`, `SOAREngine` → state persistence in `SimulationSession`. Ensure it can run either "auto-advance in the background" or "advance synchronously to completion in one call," matching whatever the existing simulation endpoint's current behavior contract requires.
+
+13. **Wire the existing endpoint for backward compatibility.** Modify only the internal implementation of the current simulation route handler so it now calls `SimulationEngine` and maps the final state into the **exact same response JSON shape** the frontend already expects. Do not change the route path, method, or response field names/types the frontend currently reads.
+
+14. **Add the new additive endpoints** listed in Section 6, following the existing router file structure and auth middleware pattern exactly.
+
+15. **Write the determinism safeguards.** Seed all randomness from `simulationId`. Verify by running the same simulation twice with the same org/config and confirming identical output.
+
+16. **Regression test the untouched surface.** Manually verify: existing auth flow still works, existing alerts/playbooks/chat endpoints are completely unaffected, existing frontend pages load and behave exactly as before with no console/network errors, and the original simulation endpoint still returns a response the frontend can consume without any frontend code changes.
+
+17. **Do not touch:** any file under the frontend/client directory, any CSS/Tailwind config, any route the frontend calls that isn't the simulation endpoint, and any auth/session logic.
+
+18. **Ship:** confirm the app still runs via the existing `run` command with no new environment variables unless reusing an already-configured LLM key for report/prediction narrative generation.
