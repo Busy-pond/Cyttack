@@ -1,11 +1,11 @@
-import { defineConfig } from "vite";
+import { defineConfig, type UserConfigFnPromise } from "vite";
 import react from "@vitejs/plugin-react";
 import tailwindcss from "@tailwindcss/vite";
 import path from "path";
 import runtimeErrorOverlay from "@replit/vite-plugin-runtime-error-modal";
 import { mockupPreviewPlugin } from "./mockupPreviewPlugin";
 
-export default defineConfig(async ({ command }) => {
+const config: UserConfigFnPromise = async ({ command }) => {
   const isBuild = command === "build";
 
   // During `vite build`, PORT and BASE_PATH may not be present.
@@ -74,4 +74,6 @@ export default defineConfig(async ({ command }) => {
       allowedHosts: true,
     },
   };
-});
+};
+
+export default defineConfig(config);
