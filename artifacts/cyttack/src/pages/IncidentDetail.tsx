@@ -22,6 +22,7 @@ import {
 import { format } from "date-fns";
 import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } from "recharts";
 import { useState, useEffect, useRef } from "react";
+import { useToast } from "@/hooks/use-toast";
 import type { PlaybookOverallStatus, PlaybookStepStatus } from "@workspace/api-client-react";
 
 // Numbered step labels for the kill chain — Surface-style
@@ -42,8 +43,18 @@ export default function IncidentDetail() {
 
   const executeStep = useExecutePlaybook();
   const approveStep = useApprovePlaybookStep();
+  const { toast } = useToast();
   const [isExecuting, setIsExecuting] = useState(false);
   const executionTimerRef = useRef<NodeJS.Timeout | null>(null);
+
+  const handleMutationError = (error: unknown, fallback: string) => {
+    const message = (error as any)?.data?.error ?? (error as Error)?.message ?? fallback;
+    toast({
+      variant: "destructive",
+      title: "Action failed",
+      description: message,
+    });
+  };
 
   const getEntityIcon = (type?: string) => {
     switch(type) {
@@ -60,13 +71,19 @@ export default function IncidentDetail() {
     setIsExecuting(true);
     const firstPendingStepIdx = alert.playbook.steps.findIndex(s => s.status === 'pending');
     if (firstPendingStepIdx !== -1) {
-      executeStep.mutate({ id: alert.playbook.id, data: { stepIndex: firstPendingStepIdx } });
+      executeStep.mutate(
+        { id: alert.playbook.id, data: { stepIndex: firstPendingStepIdx } },
+        { onError: (err) => handleMutationError(err, "Failed to execute playbook step.") }
+      );
     }
   };
 
   const handleApprove = (stepIndex: number) => {
     if (!alert?.playbook) return;
-    approveStep.mutate({ id: alert.playbook.id, data: { stepIndex } });
+    approveStep.mutate(
+      { id: alert.playbook.id, data: { stepIndex } },
+      { onError: (err) => handleMutationError(err, "Failed to approve playbook step.") }
+    );
   };
 
   useEffect(() => {
@@ -81,7 +98,10 @@ export default function IncidentDetail() {
       if (nextPendingIndex !== -1 && !executeStep.isPending) {
         executionTimerRef.current = setTimeout(() => {
           if (!alert?.playbook) return;
-          executeStep.mutate({ id: alert.playbook.id, data: { stepIndex: nextPendingIndex } });
+          executeStep.mutate(
+            { id: alert.playbook.id, data: { stepIndex: nextPendingIndex } },
+            { onError: (err) => handleMutationError(err, "Failed to execute playbook step.") }
+          );
         }, 1500);
       }
     }

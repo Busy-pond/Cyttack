@@ -2,11 +2,15 @@ import { useAuth } from "@/context/AuthContext";
 import { AppLayout } from "@/components/layout/AppLayout";
 import { Button } from "@/components/ui/button";
 import { 
+  SimulationAdvanceInputStage,
   useGetDashboardSummary, 
   useGetRiskTrend, 
   useListAlerts,
   useStartAttackSimulation,
-  getListAlertsQueryKey
+  useAdvanceSimulation,
+  getListAlertsQueryKey,
+  getGetDashboardSummaryQueryKey,
+  getGetRiskTrendQueryKey,
 } from "@workspace/api-client-react";
 import { 
   ShieldAlert, 
@@ -19,16 +23,24 @@ import {
 } from "lucide-react";
 import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid, ReferenceLine } from "recharts";
 import { Badge } from "@/components/ui/badge";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { format } from "date-fns";
+import { useQueryClient } from "@tanstack/react-query";
+import { useToast } from "@/hooks/use-toast";
 
 export default function Dashboard() {
   const { role } = useAuth();
+  const queryClient = useQueryClient();
+  const { toast } = useToast();
+  const advanceSimulation = useAdvanceSimulation();
+  const simulationTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const simulationStageRef = useRef(0);
+  const [isSimulating, setIsSimulating] = useState(false);
   
   const { data: summary, isLoading: loadingSummary } = useGetDashboardSummary();
   const { data: riskTrend, isLoading: loadingTrend } = useGetRiskTrend();
   
-  const { data: recentAlerts, isLoading: loadingAlerts, refetch: refetchAlerts } = useListAlerts(undefined, { 
+  const { data: recentAlerts, isLoading: loadingAlerts } = useListAlerts(undefined, { 
     query: { refetchInterval: 10000, queryKey: getListAlertsQueryKey() } 
   });
   
@@ -64,9 +76,79 @@ export default function Dashboard() {
     return () => clearInterval(timer);
   }, [summary]);
 
+  const clearSimulationTimer = () => {
+    if (simulationTimerRef.current) {
+      clearInterval(simulationTimerRef.current);
+      simulationTimerRef.current = null;
+    }
+    setIsSimulating(false);
+  };
+
+  useEffect(() => {
+    return () => clearSimulationTimer();
+  }, []);
+
+  const invalidateDashboard = () => {
+    queryClient.invalidateQueries({ queryKey: getListAlertsQueryKey() });
+    queryClient.invalidateQueries({ queryKey: getGetDashboardSummaryQueryKey() });
+    queryClient.invalidateQueries({ queryKey: getGetRiskTrendQueryKey() });
+  };
+
+  const beginAutoAdvance = (incidentId: string) => {
+    const stages: SimulationAdvanceInputStage[] = ["lateral_movement", "exfiltration", "impact"];
+    simulationStageRef.current = 0;
+    setIsSimulating(true);
+
+    simulationTimerRef.current = setInterval(() => {
+      const stage = stages[simulationStageRef.current];
+      if (!stage) {
+        clearSimulationTimer();
+        toast({
+          title: "Simulation complete",
+          description: "Attack reached impact stage. Review the Live Feed and take containment action.",
+        });
+        return;
+      }
+
+      advanceSimulation.mutate(
+        { data: { incidentId, stage } },
+        {
+          onSuccess: () => {
+            invalidateDashboard();
+            simulationStageRef.current++;
+          },
+          onError: (error) => {
+            const message = (error as any)?.data?.error ?? error?.message ?? "Advance failed";
+            toast({
+              variant: "destructive",
+              title: "Simulation advance failed",
+              description: message,
+            });
+            clearSimulationTimer();
+          },
+        }
+      );
+    }, 5000);
+  };
+
   const handleStartSimulation = () => {
     startSimulation.mutate(undefined, {
-      onSuccess: () => { refetchAlerts(); }
+      onSuccess: (alert) => {
+        toast({
+          title: "Simulation started",
+          description: `Initial access detected on ${alert.entityName}.`,
+        });
+        invalidateDashboard();
+        beginAutoAdvance(alert.id);
+      },
+      onError: (error) => {
+        const message = (error as any)?.data?.error ?? error?.message ?? "Simulation failed";
+        toast({
+          variant: "destructive",
+          title: "Simulation failed",
+          description: message,
+        });
+      },
     });
   };
 
@@ -94,15 +176,15 @@ export default function Dashboard() {
         
         <Button 
           onClick={handleStartSimulation}
-          disabled={startSimulation.isPending}
+          disabled={startSimulation.isPending || isSimulating}
           className="bg-primary text-primary-foreground hover:bg-primary/90 rounded-lg font-medium shadow-sm shrink-0 group"
         >
-          {startSimulation.isPending ? (
+          {startSimulation.isPending || isSimulating ? (
             <Activity className="animate-spin w-4 h-4 mr-2" />
           ) : (
             <Play className="w-4 h-4 mr-2" />
           )}
-          Start Live Attack Simulation
+          {isSimulating ? "Simulation in progress…" : "Start Live Attack Simulation"}
           <ArrowRight className="w-4 h-4 ml-2 transition-transform group-hover:translate-x-0.5" />
         </Button>
       </div>

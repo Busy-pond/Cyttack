@@ -1,6 +1,16 @@
 import { db, entitiesTable, alertsTable, campaignsTable, playbooksTable, vulnerabilitiesTable, auditLogTable } from "@workspace/db";
 
-async function seed() {
+export async function seedIfEmpty() {
+  const existing = await db.select({ id: entitiesTable.id }).from(entitiesTable).limit(1);
+  if (existing.length > 0) {
+    console.log("Database already contains entities; skipping auto-seed.");
+    return;
+  }
+  console.log("Database is empty; running auto-seed...");
+  await seed();
+}
+
+export async function seed() {
   console.log("Seeding Cyttack mock data...");
 
   // Clear existing data
