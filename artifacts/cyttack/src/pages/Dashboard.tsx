@@ -177,7 +177,7 @@ export default function Dashboard() {
         <Button 
           onClick={handleStartSimulation}
           disabled={startSimulation.isPending || isSimulating}
-          className="bg-primary text-primary-foreground hover:bg-primary/90 rounded-lg font-medium shadow-sm shrink-0 group"
+          className="btn-gradient text-primary-foreground rounded-lg font-medium shrink-0 group border-0"
         >
           {startSimulation.isPending || isSimulating ? (
             <Activity className="animate-spin w-4 h-4 mr-2" />
@@ -232,7 +232,7 @@ export default function Dashboard() {
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Risk Trend Chart — framed like a product screenshot */}
-        <div className="lg:col-span-2 bg-card border border-border rounded-xl p-6 shadow-sm">
+        <div className="lg:col-span-2 glow-card ambient-glow rounded-xl p-6 shadow-lg overflow-hidden">
           <p className="text-[10px] font-medium uppercase tracking-widest text-muted-foreground mb-1">ACTIVE INCIDENT</p>
           <h2 className="text-lg font-heading font-semibold text-foreground mb-6">Global Risk Index</h2>
           
@@ -285,7 +285,7 @@ export default function Dashboard() {
         </div>
 
         {/* Live Alert Feed */}
-        <div className="bg-card border border-border rounded-xl p-5 shadow-sm flex flex-col h-[400px]">
+        <div className="glow-card ambient-glow rounded-xl p-5 shadow-lg flex flex-col h-[400px] overflow-hidden">
           <div className="flex items-center justify-between mb-4">
             <div>
               <p className="text-[10px] font-medium uppercase tracking-widest text-muted-foreground mb-1">AI PREDICTION</p>
@@ -422,7 +422,14 @@ function StatBlock({
         <div className="h-10 w-20 bg-secondary animate-pulse rounded" />
       ) : (
         <div className="flex items-baseline gap-1">
-          <span className={`text-4xl font-heading font-bold ${valueClass}`}>
+          <span
+            className={`text-4xl font-heading font-bold ${valueClass}`}
+            style={
+              valueClass.includes("critical")
+                ? { backgroundImage: "var(--gradient-critical)", WebkitBackgroundClip: "text", backgroundClip: "text", color: "transparent" }
+                : { backgroundImage: "var(--gradient-accent)", WebkitBackgroundClip: "text", backgroundClip: "text", color: "transparent" }
+            }
+          >
             {value.toLocaleString()}
           </span>
           {suffix && <span className="text-sm font-medium text-muted-foreground">{suffix}</span>}
