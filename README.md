@@ -6,16 +6,16 @@
 
 Built for ET AI Hackathon 2026 — Problem Statement 7
 
-[![Live Demo](https://img.shields.io/badge/Live%20Demo-cyttack--cyttack.vercel.app-2E5EAA?style=for-the-badge&logo=vercel&logoColor=white)](https://cyttack-cyttack.vercel.app/)
-[![Repo](https://img.shields.io/badge/Repo-a34656%2FCyttack-1A1F3D?style=for-the-badge&logo=github&logoColor=white)](https://github.com/a34656/Cyttack)
-[![License](https://img.shields.io/badge/License-MIT-2E9E5B?style=for-the-badge)](#)
+[![Live Demo](https://img.shields.io/badge/🚀_Live-Demo-00C853?style=for-the-badge)](https://cyttack-frieren1.vercel.app)
+[![GitHub](https://img.shields.io/badge/GitHub-Repository-181717?style=for-the-badge&logo=github)](https://github.com/Busy-pond/Cyttack)
+[![License](https://img.shields.io/github/license/Busy-pond/Cyttack?style=for-the-badge)]
 
-![Python](https://img.shields.io/badge/Python-ML%20Backend-3776AB?style=flat-square&logo=python&logoColor=white)
-![TypeScript](https://img.shields.io/badge/TypeScript-Monorepo-3178C6?style=flat-square&logo=typescript&logoColor=white)
-![React](https://img.shields.io/badge/React-Vite-61DAFB?style=flat-square&logo=react&logoColor=black)
-![Express](https://img.shields.io/badge/Express-API%20Server-000000?style=flat-square&logo=express&logoColor=white)
-![Postgres](https://img.shields.io/badge/PostgreSQL-Supabase-336791?style=flat-square&logo=postgresql&logoColor=white)
-![Claude](https://img.shields.io/badge/Claude-MITRE%20Mapping-D97757?style=flat-square&logo=anthropic&logoColor=white)
+![Next.js](https://img.shields.io/badge/Next.js-15-black?style=flat-square&logo=nextdotjs)
+![FastAPI](https://img.shields.io/badge/FastAPI-Backend-009688?style=flat-square&logo=fastapi)
+![Python](https://img.shields.io/badge/Python-3.12-3776AB?style=flat-square&logo=python)
+![Railway](https://img.shields.io/badge/Deployed_on-Railway-0B0D0E?style=flat-square&logo=railway)
+![Vercel](https://img.shields.io/badge/Frontend-Vercel-000000?style=flat-square&logo=vercel)
+
 
 </div>
 
