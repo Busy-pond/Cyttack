@@ -76,72 +76,76 @@
 }
 
 :root {
-  /* Surface Light Palette */
-  /* Background: #FAFAF9 — off-white, warm */
-  --background: 60 11% 98%;
-  /* Primary text: #1A1A1A */
-  --foreground: 0 0% 10%;
+  /* Deep space-navy base — not flat black, has blue undertone */
+  --background: 226 32% 7%;
+  --foreground: 210 20% 96%;
 
-  /* Cards: #FFFFFF with subtle border */
-  --card: 0 0% 100%;
-  --card-foreground: 0 0% 10%;
-  /* Border: #EAEAE8 */
-  --card-border: 60 5% 91%;
-  --border: 60 5% 91%;
+  /* Cards: slightly lifted navy, glassy */
+  --card: 227 28% 10%;
+  --card-foreground: 210 20% 96%;
+  --card-border: 227 20% 18%;
+  --border: 227 20% 18%;
 
-  --popover: 0 0% 100%;
-  --popover-foreground: 0 0% 10%;
-  --popover-border: 60 5% 91%;
+  --popover: 227 28% 10%;
+  --popover-foreground: 210 20% 96%;
+  --popover-border: 227 20% 18%;
 
-  /* Primary accent: deep indigo #2B2E4A */
-  --primary: 233 27% 23%;
+  /* Primary accent: electric indigo-violet */
+  --primary: 252 83% 66%;
   --primary-foreground: 0 0% 100%;
 
-  /* Secondary: very light warm gray */
-  --secondary: 60 11% 96%;
-  --secondary-foreground: 0 0% 10%;
+  /* Secondary: muted navy panel */
+  --secondary: 227 24% 14%;
+  --secondary-foreground: 210 20% 96%;
 
-  --muted: 60 11% 96%;
-  /* Muted text: #6B6B68 */
-  --muted-foreground: 60 2% 42%;
+  --muted: 227 24% 14%;
+  --muted-foreground: 222 12% 62%;
 
-  --accent: 233 27% 23%;
-  --accent-foreground: 0 0% 100%;
+  --accent: 190 90% 55%;
+  --accent-foreground: 226 32% 7%;
 
-  /* Critical/destructive: muted red #C0392B */
-  --destructive: 5 62% 46%;
+  /* Critical/destructive: vivid rose-red */
+  --destructive: 350 89% 60%;
   --destructive-foreground: 0 0% 100%;
 
-  --input: 60 5% 91%;
-  --ring: 233 27% 23%;
+  --input: 227 20% 18%;
+  --ring: 252 83% 66%;
 
-  /* Custom Severity Colors — desaturated, designed */
-  --critical: 5 62% 46%;       /* #C0392B — muted red */
-  --high: 38 71% 41%;          /* #B7791F — muted amber */
-  --medium: 38 71% 41%;        /* same amber for warning */
-  --low: 148 49% 36%;          /* #2F855A — muted green */
-  --contained: 148 49% 36%;    /* #2F855A */
+  /* Custom Severity Colors — vivid, gradient-friendly */
+  --critical: 350 89% 60%;     /* #F43F5E — vivid rose */
+  --high: 32 95% 58%;          /* #F59E0B — amber */
+  --medium: 32 95% 58%;
+  --low: 160 84% 43%;          /* #10B981 — emerald */
+  --contained: 190 90% 55%;    /* #22D3EE — cyan */
 
-  --chart-1: 233 27% 23%;
-  --chart-2: 5 62% 46%;
-  --chart-3: 38 71% 41%;
-  --chart-4: 148 49% 36%;
-  --chart-5: 220 14% 60%;
+  --chart-1: 252 83% 66%;
+  --chart-2: 350 89% 60%;
+  --chart-3: 32 95% 58%;
+  --chart-4: 160 84% 43%;
+  --chart-5: 190 90% 55%;
 
-  /* Sidebar: white with border */
-  --sidebar: 0 0% 100%;
-  --sidebar-foreground: 0 0% 10%;
-  --sidebar-border: 60 5% 91%;
-  --sidebar-primary: 233 27% 23%;
+  /* Sidebar: matches card navy */
+  --sidebar: 227 30% 9%;
+  --sidebar-foreground: 210 20% 96%;
+  --sidebar-border: 227 20% 18%;
+  --sidebar-primary: 252 83% 66%;
   --sidebar-primary-foreground: 0 0% 100%;
-  --sidebar-accent: 60 11% 96%;
-  --sidebar-accent-foreground: 0 0% 10%;
-  --sidebar-ring: 233 27% 23%;
+  --sidebar-accent: 227 24% 14%;
+  --sidebar-accent-foreground: 210 20% 96%;
+  --sidebar-ring: 252 83% 66%;
 
   --app-font-sans: 'Inter', sans-serif;
   --app-font-heading: 'Space Grotesk', sans-serif;
   --app-font-mono: 'JetBrains Mono', monospace;
   --radius: 0.5rem;
+
+  /* Gradient tokens */
+  --gradient-primary: linear-gradient(135deg, hsl(252 83% 66%), hsl(280 80% 60%));
+  --gradient-accent: linear-gradient(135deg, hsl(190 90% 55%), hsl(252 83% 66%));
+  --gradient-critical: linear-gradient(135deg, hsl(350 89% 60%), hsl(15 90% 58%));
+  --gradient-bg: radial-gradient(ellipse 80% 60% at 20% -10%, hsl(252 60% 22% / 0.35), transparent),
+                 radial-gradient(ellipse 70% 50% at 100% 0%, hsl(190 70% 25% / 0.25), transparent),
+                 hsl(var(--background));
 }
 
 @layer base {
@@ -150,12 +154,67 @@
   }
 
   body {
-    @apply font-sans antialiased bg-background text-foreground;
+    @apply font-sans antialiased text-foreground;
+    background: var(--gradient-bg);
+    background-attachment: fixed;
   }
 
   h1, h2, h3, h4, h5, h6 {
     @apply font-heading tracking-tight;
   }
+}
+
+/* Gradient border + glow treatment for focal cards */
+.glow-card {
+  position: relative;
+  background: linear-gradient(180deg, hsl(var(--card)), hsl(227 30% 8%));
+  border: 1px solid transparent;
+  background-clip: padding-box;
+}
+.glow-card::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(135deg, hsl(252 83% 66% / 0.5), hsl(190 90% 55% / 0.2), transparent 70%);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+.glow-card--critical::before {
+  background: linear-gradient(135deg, hsl(350 89% 60% / 0.6), hsl(32 95% 58% / 0.25), transparent 70%);
+}
+
+/* Gradient primary button */
+.btn-gradient {
+  background: var(--gradient-primary);
+  background-size: 160% 160%;
+  background-position: 0% 50%;
+  transition: background-position 0.4s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 24px -6px hsl(252 83% 66% / 0.5);
+}
+.btn-gradient:hover {
+  background-position: 100% 50%;
+  box-shadow: 0 6px 30px -4px hsl(252 83% 66% / 0.7);
+}
+
+/* Ambient radial glow behind focal panels */
+.ambient-glow {
+  position: relative;
+}
+.ambient-glow::after {
+  content: '';
+  position: absolute;
+  top: 10%;
+  left: 10%;
+  width: 60%;
+  height: 60%;
+  background: radial-gradient(circle, hsl(252 83% 66% / 0.15), transparent 70%);
+  filter: blur(40px);
+  pointer-events: none;
+  z-index: -1;
 }
 
 /* Surface-style scrollbar */
